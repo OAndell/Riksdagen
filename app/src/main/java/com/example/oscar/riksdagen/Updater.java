@@ -1,6 +1,7 @@
 package com.example.oscar.riksdagen;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import com.example.oscar.riksdagen.Tools.DocumentDownloader;
 import com.example.oscar.riksdagen.Tools.HtmlDownloader;
 import com.example.oscar.riksdagen.Tools.ImageDownloader;
+import com.example.oscar.riksdagen.Votes.VoteActivity;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -85,8 +87,11 @@ public class Updater {
                     if(doc.getElementsByTag("namn").hasText()){
                         getHTMLDocument(doc.getElementsByTag("dokument_url_html").text(), doc.getElementsByTag("namn").get(0).text());
                     }
-                    else {
-                        getHTMLDocument(doc.getElementsByTag("dokument_url_html").text());
+                    else { //Voteringar
+                        Intent votePage = new Intent(context, VoteActivity.class);
+                        votePage.putExtra("pageURL", doc.getElementsByTag("dokument_url_html").text());
+                        votePage.putExtra("pageDesc", doc.getElementsByTag("titel").get(0).text());
+                        context.startActivity(votePage);
                     }
                     documentView = true;
                 }

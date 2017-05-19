@@ -3,8 +3,7 @@ package com.example.oscar.riksdagen.Tools;
 import android.os.AsyncTask;
 
 import com.example.oscar.riksdagen.ListItem;
-import com.google.code.rome.android.repackaged.com.sun.syndication.feed.rss.Item;
-import com.google.code.rome.android.repackaged.com.sun.syndication.feed.synd.SyndFeed;
+
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -12,10 +11,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+
+import java.util.ArrayList;
 
 /**
  * Created by Oscar on 2017-03-26.
@@ -36,7 +33,7 @@ public class HtmlDownloader extends AsyncTask<String, String, String> {
 
     @Override
     protected String doInBackground(String... strings) {
-        return connect();
+        return download();
     }
 
     @Override
@@ -56,17 +53,18 @@ public class HtmlDownloader extends AsyncTask<String, String, String> {
         }
     }
 
-    private String connect() {
+    private String download() {
         try {
             Document doc = Jsoup.connect(url)
                     .userAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.21 (KHTML, like Gecko) Chrome/19.0.1042.0 Safari/535.21")
                     .timeout(10000)
                     .get();
-            doc.text().replaceAll("\\<h2\\>[\\s\\S]*\\<\\/p\\>", "");
-            doc.select("br").append("br2n");
-            doc.select("p").prepend("br2n");
-            doc.select("h2").append("");
-            return Jsoup.parse(doc.html()).text().replaceAll("br2n","\n");
+               doc.text().replaceAll("\\<h2\\>[\\s\\S]*\\<\\/p\\>", "");
+               doc.select("br").append("br2n");
+               doc.select("p").prepend("br2n");
+               doc.select("h2").append("");
+               return Jsoup.parse(doc.html()).text().replaceAll("br2n","\n");
+
 
         } catch (IOException e) {
             e.printStackTrace();

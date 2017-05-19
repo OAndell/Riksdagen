@@ -26,8 +26,9 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.0.0'
     testCompile 'junit:junit:4.12'
-    compile files('src/main/java/com/example/oscar/riksdagen/libraries/android-rome-feed-reader-1.0.0.jar')
     compile files('src/main/java/com/example/oscar/riksdagen/libraries/jdom-1.1.1-android-fork.jar')
     compile files('src/main/java/com/example/oscar/riksdagen/libraries/jsoup-1.9.2.jar')
     compile files('src/main/java/com/example/oscar/riksdagen/libraries/gson-2.8.0-sources.jar')
+    compile files('src/main/java/com/example/oscar/riksdagen/libraries/GraphView-4.2.1.jar')
+    compile files('src/main/java/com/example/oscar/riksdagen/libraries/android-rome-feed-reader-1.0.0.jar')
 }

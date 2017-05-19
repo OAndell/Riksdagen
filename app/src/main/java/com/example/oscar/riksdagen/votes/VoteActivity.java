@@ -1,0 +1,132 @@
+package com.example.oscar.riksdagen.Votes;
+
+import android.content.Intent;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.TextView;
+
+import com.example.oscar.riksdagen.R;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GridLabelRenderer;
+import com.jjoe64.graphview.ValueDependentColor;
+import com.jjoe64.graphview.helper.StaticLabelsFormatter;
+import com.jjoe64.graphview.series.BarGraphSeries;
+import com.jjoe64.graphview.series.DataPoint;
+
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.util.ArrayList;
+
+/**
+ * Created by Oscar on 2017-05-15.
+ */
+
+public class VoteActivity extends AppCompatActivity {
+
+    private ArrayList<GraphView> graphs = new ArrayList<>();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_vote);
+        Intent myIntent = getIntent();
+
+        GraphView graphS = (GraphView) findViewById(R.id.votegraphS);
+        graphs.add(graphS);
+        GraphView graphM = (GraphView) findViewById(R.id.votegraphM);
+        graphs.add(graphM);
+        GraphView graphSD = (GraphView) findViewById(R.id.votegraphSD);
+        graphs.add(graphSD);
+        GraphView graphMP = (GraphView) findViewById(R.id.votegraphMP);
+        graphs.add(graphMP);
+        GraphView graphC = (GraphView) findViewById(R.id.votegraphC);
+        graphs.add(graphC);
+        GraphView graphV = (GraphView) findViewById(R.id.votegraphV);
+        graphs.add(graphV);
+        GraphView graphL = (GraphView) findViewById(R.id.votegraphL);
+        graphs.add(graphL);
+        GraphView graphKD = (GraphView) findViewById(R.id.votegraphKD);
+        graphs.add(graphKD);
+        GraphView graphTotal = (GraphView) findViewById(R.id.votegraphTotal);
+        graphs.add(graphTotal);
+
+
+        TextView descTextView = (TextView) findViewById(R.id.descText);
+        descTextView.setTextColor(Color.BLACK);
+        descTextView.setText(myIntent.getStringExtra("pageDesc"));
+
+        //Download and setup bargraphs
+        new VoteTableDownloader(myIntent.getStringExtra("pageURL"),graphs).execute();
+
+
+    }
+
+    public static void setupGraph(final GraphView graph, int data1, int data2, int data3, int data4, boolean hideLabels){
+        BarGraphSeries<DataPoint> series = new BarGraphSeries<>(new DataPoint[] {
+                new DataPoint(0,  data1),
+                new DataPoint(1,  data2),
+                new DataPoint(2,  data3),
+                new DataPoint(3,  data4)
+        });
+        series.setValueDependentColor(new ValueDependentColor<DataPoint>() {
+            @Override
+            public int get(DataPoint data) {
+                if(data.getX() == 0){
+                    return Color.GREEN;
+                }
+                if(data.getX() == 1){
+                    return Color.RED;
+                }
+                if(data.getX() == 2){
+                    return Color.GRAY;
+                }
+                if(data.getX() == 3){
+                    return Color.DKGRAY;
+                }
+                return 0;
+            }
+        });
+
+        series.setValuesOnTopColor(Color.BLACK);
+        graph.addSeries(series);
+        graph.getViewport().setXAxisBoundsManual(true);
+
+        graph.getViewport().setMinX(-1);
+        graph.getViewport().setMaxX(4);
+
+
+        StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph);
+        staticLabelsFormatter.setHorizontalLabels(new String[] {"","Ja","Nej","Avst.","Frånv.",""});
+        graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
+        graph.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.NONE);
+        graph.getGridLabelRenderer().setVerticalLabelsVisible(false);
+        if(hideLabels){
+            graph.getGridLabelRenderer().setHorizontalLabelsVisible(false);
+            graph.getViewport().setYAxisBoundsManual(true);
+            graph.getViewport().setMaxY(110);
+            graph.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    BarGraphSeries<DataPoint> series = (BarGraphSeries<DataPoint>) graph.getSeries().get(0);
+                    if(series.isDrawValuesOnTop()){
+                        series.setDrawValuesOnTop(false);
+                    }
+                    else {
+                        series.setDrawValuesOnTop(true);
+                    }
+                    graph.invalidate();
+                }
+            });
+        }
+        else{
+            series.setDrawValuesOnTop(true);
+            graph.setTitleTextSize(50);
+            graph.setTitle("Resultat");
+        }
+
+    }
+}

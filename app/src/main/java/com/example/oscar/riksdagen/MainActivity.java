@@ -12,7 +12,6 @@ import com.example.oscar.riksdagen.Tools.DocumentDownloader;
 import java.util.ArrayList;
 
 
-//TODO: SKRIV OM DE PARTISPECIFIKA SIDORNA MED DATA FRÅN http://riksdagen.se/sv/dokument-lagar/?parti=v
 
 public class MainActivity extends AppCompatActivity {
 
