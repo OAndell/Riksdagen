@@ -8,13 +8,13 @@ public  class Page {
     private String name;
     private int symbol; //Page logo
     private int banner;
-    private String rssUrl;
+    private String apiQuery;
 
 
-    public Page(String name, int symbol, int banner, String rssUrl){
+    public Page(String name, int symbol, int banner, String apiQuery){
         this.name = name;
         this.symbol = symbol;
-        this.rssUrl = rssUrl;
+        this.apiQuery = apiQuery;
         this.banner = banner;
     }
 
@@ -26,8 +26,8 @@ public  class Page {
         return name;
     }
 
-    public String getRSSUrl(){
-        return rssUrl;
+    public String getAPIquery(){
+        return apiQuery;
     }
 
     public int getSymbol() {

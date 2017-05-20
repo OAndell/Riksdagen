@@ -7,10 +7,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.example.oscar.riksdagen.Menu.MainMenu;
-import com.example.oscar.riksdagen.Tools.DocumentDownloader;
 
 import java.util.ArrayList;
-
 
 
 public class MainActivity extends AppCompatActivity {

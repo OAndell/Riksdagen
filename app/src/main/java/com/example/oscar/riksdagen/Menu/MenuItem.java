@@ -16,7 +16,7 @@ import com.example.oscar.riksdagen.Page;
 
 public class MenuItem extends LinearLayout{
 
-    private int TEXT_SIZE = 25;
+    private int TEXT_SIZE = 25; //TODO probably make these smaller
     private int HEIGHT  = 150;
 
 

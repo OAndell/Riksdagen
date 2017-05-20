@@ -1,11 +1,11 @@
-package com.example.oscar.riksdagen.Votes;
+package com.example.oscar.riksdagen.VotesModule;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.oscar.riksdagen.R;
@@ -15,9 +15,6 @@ import com.jjoe64.graphview.ValueDependentColor;
 import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
-
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 
@@ -63,6 +60,15 @@ public class VoteActivity extends AppCompatActivity {
         new VoteTableDownloader(myIntent.getStringExtra("pageURL"),graphs).execute();
 
 
+        Button backButton = (Button) findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+
     }
 
     public static void setupGraph(final GraphView graph, int data1, int data2, int data3, int data4, boolean hideLabels){
@@ -76,7 +82,7 @@ public class VoteActivity extends AppCompatActivity {
             @Override
             public int get(DataPoint data) {
                 if(data.getX() == 0){
-                    return Color.GREEN;
+                    return Color.rgb(105, 254, 0);
                 }
                 if(data.getX() == 1){
                     return Color.RED;

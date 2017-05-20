@@ -1,6 +1,5 @@
-package com.example.oscar.riksdagen.Votes;
+package com.example.oscar.riksdagen.VotesModule;
 
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
 
 import com.jjoe64.graphview.GraphView;

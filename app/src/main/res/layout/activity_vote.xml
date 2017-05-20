@@ -15,20 +15,28 @@ android:paddingBottom="@dimen/activity_vertical_margin">
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
+
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimaryDark"
             android:weightSum="1">
 
+            <Button
+                android:layout_width="57dp"
+                android:layout_height="match_parent"
+                android:id="@+id/backButton"
+                style="@android:style/Widget.Button"
+                android:elevation="24dp"
+                android:background="@drawable/backbutton2" />
 
-
-            <TextView
+            <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="59dp"
                 android:id="@+id/bannerImage"
-                android:background="@color/colorBanner" />
+                android:background="@color/colorBanner"
+                app:srcCompat="@drawable/votbanner"/>
         </LinearLayout>
 
         <ScrollView
@@ -69,6 +77,13 @@ android:paddingBottom="@dimen/activity_vertical_margin">
                     android:layout_height="1dp"
                     app:srcCompat="@android:color/black"
                     android:id="@+id/imageView2" />
+
+                <TextView
+                    android:text="Partiröster:"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:id="@+id/PartyVotes" />
 
                 <LinearLayout
                     android:orientation="horizontal"

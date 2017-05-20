@@ -7,10 +7,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.oscar.riksdagen.Tools.DocumentDownloader;
+import com.example.oscar.riksdagen.Tools.APIParser;
 import com.example.oscar.riksdagen.Tools.HtmlDownloader;
 import com.example.oscar.riksdagen.Tools.ImageDownloader;
-import com.example.oscar.riksdagen.Votes.VoteActivity;
+import com.example.oscar.riksdagen.VotesModule.VoteActivity;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -43,9 +43,9 @@ public class Updater {
         documentView = false;
         if(page.getClass() == Party.class){
             Party party =  (Party) page;
-            new DocumentDownloader(this, party.getID()).execute();
+            new APIParser(this, party.getID()).execute();
         }else{
-            new DocumentDownloader(this,page).execute();
+            new APIParser(this,page).execute();
         }
     }
 
@@ -122,13 +122,6 @@ public class Updater {
         ListItem item = new ListItem(context);
         listLayout.addView(item);
         new ImageDownloader(item, name).execute();
-        new HtmlDownloader(item, url).execute();
-    }
-
-    public void getHTMLDocument(String url){
-        listLayout.removeAllViews();
-        ListItem item = new ListItem(context);
-        listLayout.addView(item);
         new HtmlDownloader(item, url).execute();
     }
 

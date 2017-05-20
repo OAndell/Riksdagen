@@ -7,12 +7,8 @@ import com.example.oscar.riksdagen.ListItem;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import java.io.IOException;
-
-import java.util.ArrayList;
 
 /**
  * Created by Oscar on 2017-03-26.
@@ -29,8 +25,6 @@ public class HtmlDownloader extends AsyncTask<String, String, String> {
         this.url = url;
     }
 
-
-
     @Override
     protected String doInBackground(String... strings) {
         return download();
@@ -38,6 +32,7 @@ public class HtmlDownloader extends AsyncTask<String, String, String> {
 
     @Override
     protected void onPostExecute(String result){
+        //TODO probably fix this to have better formatting when displaying documents.
         listItem.setText(result);
         String[] resultSplit = result.split("(?m)^\\s*$"); //Split text on blank line
         if(resultSplit[0].length() > maxTitleLength){
