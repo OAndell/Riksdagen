@@ -57,7 +57,9 @@ android:paddingBottom="@dimen/activity_vertical_margin">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/descText" />
+                    android:id="@+id/descText"
+                    android:textStyle="bold"
+                    android:textSize="15dp"/>
 
 
                 <ImageView
@@ -77,6 +79,18 @@ android:paddingBottom="@dimen/activity_vertical_margin">
                     android:layout_height="1dp"
                     app:srcCompat="@android:color/black"
                     android:id="@+id/imageView2" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/infoView" />
+
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    app:srcCompat="@android:color/black"
+                    android:id="@+id/imageView4" />
 
                 <TextView
                     android:text="Partiröster:"

@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.example.oscar.riksdagen.Tools.APIParser;
 import com.example.oscar.riksdagen.Tools.HtmlDownloader;
 import com.example.oscar.riksdagen.Tools.ImageDownloader;
+import com.example.oscar.riksdagen.Tools.TextCleaner;
 import com.example.oscar.riksdagen.VotesModule.VoteActivity;
 
 import org.jsoup.Jsoup;
@@ -99,7 +100,7 @@ public class Updater {
             listLayout.addView(item);
         }else{ //Items fot start page
             item.setTitle(doc.getElementsByTag("titel").get(0).text());
-            item.setText(cleanupText(doc.getElementsByTag("summary").get(0).text()));
+            item.setText(TextCleaner.cleanupText(doc.getElementsByTag("summary").get(0).text()));
             item.setText(item.getText() + "\n" + doc.getElementsByTag("systemdatum").get(0).text());
             listLayout.addView(item);
         }

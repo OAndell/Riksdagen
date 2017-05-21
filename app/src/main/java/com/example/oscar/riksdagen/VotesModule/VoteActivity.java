@@ -17,6 +17,8 @@ import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by Oscar on 2017-05-15.
@@ -31,6 +33,10 @@ public class VoteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vote);
         Intent myIntent = getIntent();
+        String pageDesc = myIntent.getStringExtra("pageDesc");
+        TextView summaryTextView = (TextView) findViewById(R.id.infoView);
+        summaryTextView.setTextColor(Color.BLACK);
+        downloadSummaryText(pageDesc, summaryTextView);
 
         GraphView graphS = (GraphView) findViewById(R.id.votegraphS);
         graphs.add(graphS);
@@ -54,7 +60,7 @@ public class VoteActivity extends AppCompatActivity {
 
         TextView descTextView = (TextView) findViewById(R.id.descText);
         descTextView.setTextColor(Color.BLACK);
-        descTextView.setText(myIntent.getStringExtra("pageDesc"));
+        descTextView.setText(pageDesc.split("betänkande\\s(\\d+\\/\\d{1,2}\\:[^\\s]+)")[1]);
 
         //Download and setup bargraphs
         new VoteTableDownloader(myIntent.getStringExtra("pageURL"),graphs).execute();
@@ -100,10 +106,8 @@ public class VoteActivity extends AppCompatActivity {
         series.setValuesOnTopColor(Color.BLACK);
         graph.addSeries(series);
         graph.getViewport().setXAxisBoundsManual(true);
-
         graph.getViewport().setMinX(-1);
         graph.getViewport().setMaxX(4);
-
 
         StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph);
         staticLabelsFormatter.setHorizontalLabels(new String[] {"","Ja","Nej","Avst.","Frånv.",""});
@@ -133,6 +137,15 @@ public class VoteActivity extends AppCompatActivity {
             graph.setTitleTextSize(50);
             graph.setTitle("Resultat");
         }
-
     }
+
+    private static void downloadSummaryText(String pageDesc, TextView summaryTextView){
+        Pattern pattern = Pattern.compile("betänkande\\s(\\d+\\/\\d{1,2}\\:[^\\s]+)");
+        Matcher matcher = pattern.matcher(pageDesc);
+        if (matcher.find())
+        {
+            new VoteSummaryDownloader(matcher.group(1), summaryTextView).execute();
+        }
+    }
+
 }
