@@ -20,6 +20,9 @@
         <activity
             android:name=".VotesModule.VoteActivity">
         </activity>
+        <activity
+            android:name=".ReadModule.ReadActivity">
+        </activity>
     </application>
 
 </manifest>

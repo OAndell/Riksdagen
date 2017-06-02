@@ -1,14 +1,17 @@
 package com.example.oscar.riksdagen.VotesModule;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.oscar.riksdagen.R;
+import com.example.oscar.riksdagen.ReadModule.ReadActivity;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.ValueDependentColor;
@@ -27,11 +30,14 @@ import java.util.regex.Pattern;
 public class VoteActivity extends AppCompatActivity {
 
     private ArrayList<GraphView> graphs = new ArrayList<>();
+    private static String fullTextUrl;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vote);
+        context = this;
         Intent myIntent = getIntent();
         String pageDesc = myIntent.getStringExtra("pageDesc");
         TextView summaryTextView = (TextView) findViewById(R.id.infoView);
@@ -66,6 +72,7 @@ public class VoteActivity extends AppCompatActivity {
         new VoteTableDownloader(myIntent.getStringExtra("pageURL"),graphs).execute();
 
 
+
         Button backButton = (Button) findViewById(R.id.backButton);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,6 +81,15 @@ public class VoteActivity extends AppCompatActivity {
             }
         });
 
+        TextView readMoreButton = (TextView) findViewById(R.id.readMoreTextView);
+        readMoreButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent readPage = new Intent(context, ReadActivity.class);
+                readPage.putExtra("url",fullTextUrl);
+                context.startActivity(readPage);
+            }
+        });
 
     }
 
@@ -146,6 +162,10 @@ public class VoteActivity extends AppCompatActivity {
         {
             new VoteSummaryDownloader(matcher.group(1), summaryTextView).execute();
         }
+    }
+
+    public static void setFullTextUrl(String url){
+        fullTextUrl = url;
     }
 
 }

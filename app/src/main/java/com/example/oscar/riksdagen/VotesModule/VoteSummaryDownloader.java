@@ -4,15 +4,12 @@ import android.os.AsyncTask;
 import android.widget.TextView;
 
 import com.example.oscar.riksdagen.Tools.TextCleaner;
-import com.jjoe64.graphview.GraphView;
+
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * Created by Oscar on 2017-05-16.
@@ -37,7 +34,7 @@ public class VoteSummaryDownloader extends AsyncTask<String,String,String> {
 
     @Override
     protected void onPostExecute(String results){
-        textView.setText("\n"+ TextCleaner.cleanupText(results) + "\n");
+        textView.setText("\n"+ TextCleaner.cleanupText(results));
     }
 
     private String search(){
@@ -47,6 +44,7 @@ public class VoteSummaryDownloader extends AsyncTask<String,String,String> {
                     .timeout(10000)
                     .get();
             docUrl =  doc.getElementsByTag("dokument_url_html").get(0).text();
+            VoteActivity.setFullTextUrl(docUrl);
             return doc.getElementsByTag("notis").get(0).text();
         } catch (IOException e) {
             return null;
