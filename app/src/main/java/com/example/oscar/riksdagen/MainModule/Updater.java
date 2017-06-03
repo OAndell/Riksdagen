@@ -1,4 +1,4 @@
-package com.example.oscar.riksdagen;
+package com.example.oscar.riksdagen.MainModule;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,9 +7,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.oscar.riksdagen.ReadModule.ReadActivity;
 import com.example.oscar.riksdagen.Tools.APIParser;
 import com.example.oscar.riksdagen.Tools.HtmlDownloader;
 import com.example.oscar.riksdagen.Tools.ImageDownloader;
+import com.example.oscar.riksdagen.Tools.ReplyFinder;
 import com.example.oscar.riksdagen.Tools.TextCleaner;
 import com.example.oscar.riksdagen.VotesModule.VoteActivity;
 
@@ -75,7 +77,6 @@ public class Updater {
         banner.setImageResource(img);
     }
 
-
     private void createItem(final Element doc){
         final ListItem item = new ListItem(context);
         if(doc.getElementsByTag("debattnamn").get(0).text().length() > 0){ //Check to see if you should look for summaries instead of documents, Not great code....
@@ -85,10 +86,16 @@ public class Updater {
             item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(doc.getElementsByTag("namn").hasText()){
-                        getHTMLDocument(doc.getElementsByTag("dokument_url_html").text(), doc.getElementsByTag("namn").get(0).text());
+                    if(doc.getElementsByTag("doktyp").text().equals("mot")){//Start ReadActvity for motions.
+                        Intent readPage = new Intent(context, ReadActivity.class);
+                        readPage.putExtra("url",doc.getElementsByTag("dokument_url_html").text());
+                        context.startActivity(readPage);
                     }
-                    else { //Voteringar
+                    else if(doc.getElementsByTag("namn").hasText()){ //Questions
+                        getHTMLDocument(doc.getElementsByTag("dokument_url_html").text(), doc.getElementsByTag("namn").get(0).text());
+                        getReplyDoc(doc.getElementsByTag("titel").get(0).text());
+                    }
+                    else { //Votes
                         Intent votePage = new Intent(context, VoteActivity.class);
                         votePage.putExtra("pageURL", doc.getElementsByTag("dokument_url_html").text());
                         votePage.putExtra("pageDesc", doc.getElementsByTag("titel").get(0).text());
@@ -104,26 +111,31 @@ public class Updater {
             item.setText(item.getText() + "\n" + doc.getElementsByTag("systemdatum").get(0).text());
             listLayout.addView(item);
         }
-
     }
 
     /**
-     * Removes unwanted text from the xml entry
+     * Clears the layout of all views and
+     * finds and downloads a document + politician image
      */
-    private String cleanupText(String string){
-        string = string.replaceAll("&#229;", "å")
-            .replaceAll("&#228;", "ä")
-            .replaceAll("&#246;", "ö")
-            .replaceAll("&#214;", "Ö");
-        return string.substring(9,string.length()-10); //Removes the "&lt;p&gt;" and "&lt;/p&gt;" from the beginning of the document
-    }
-
     public void getHTMLDocument(String url, String name){
         listLayout.removeAllViews();
         ListItem item = new ListItem(context);
         listLayout.addView(item);
         new ImageDownloader(item, name).execute();
         new HtmlDownloader(item, url).execute();
+    }
+
+    /**
+     * Find and dispay replies to written questions.
+     * The content is displayed below the original questions.
+     * Calls a ReplyFinder task.
+     */
+    private void getReplyDoc(String title){
+        ListItem reply = new ListItem(context);
+        listLayout.addView(reply);
+        title = title.replace(" ", "+");
+        reply.setTitle("Svar på skriftlig fråga:");
+        new ReplyFinder(title,reply).execute();
     }
 
     /**
@@ -147,5 +159,4 @@ public class Updater {
             }
         }
     }
-
 }

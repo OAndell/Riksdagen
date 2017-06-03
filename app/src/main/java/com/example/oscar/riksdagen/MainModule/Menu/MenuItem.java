@@ -1,4 +1,4 @@
-package com.example.oscar.riksdagen.Menu;
+package com.example.oscar.riksdagen.MainModule.Menu;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.oscar.riksdagen.Page;
+import com.example.oscar.riksdagen.MainModule.Page;
 
 /**
  * Created by Oscar on 2017-03-24.

@@ -2,8 +2,8 @@ package com.example.oscar.riksdagen.Tools;
 
 import android.os.AsyncTask;
 
-import com.example.oscar.riksdagen.Page;
-import com.example.oscar.riksdagen.Updater;
+import com.example.oscar.riksdagen.MainModule.Page;
+import com.example.oscar.riksdagen.MainModule.Updater;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

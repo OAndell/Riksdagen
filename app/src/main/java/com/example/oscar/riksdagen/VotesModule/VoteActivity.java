@@ -72,7 +72,7 @@ public class VoteActivity extends AppCompatActivity {
         new VoteTableDownloader(myIntent.getStringExtra("pageURL"),graphs).execute();
 
 
-
+        //init "go back" button
         Button backButton = (Button) findViewById(R.id.backButton);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,6 +81,7 @@ public class VoteActivity extends AppCompatActivity {
             }
         });
 
+        //init read more button
         TextView readMoreButton = (TextView) findViewById(R.id.readMoreTextView);
         readMoreButton.setOnClickListener(new View.OnClickListener() {
             @Override

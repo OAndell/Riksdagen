@@ -1,4 +1,4 @@
-package com.example.oscar.riksdagen;
+package com.example.oscar.riksdagen.MainModule;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -66,6 +66,10 @@ public class ListItem extends LinearLayout{
 
     public void setTitle(String title){
         titleTextView.setText(title);
+    }
+
+    public String getTitle(){
+        return titleTextView.getText().toString();
     }
 
     public void setText(String text){

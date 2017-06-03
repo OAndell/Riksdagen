@@ -1,4 +1,4 @@
-package com.example.oscar.riksdagen;
+package com.example.oscar.riksdagen.MainModule;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -6,7 +6,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.example.oscar.riksdagen.Menu.MainMenu;
+import com.example.oscar.riksdagen.MainModule.Menu.MainMenu;
+import com.example.oscar.riksdagen.R;
 
 import java.util.ArrayList;
 
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         updater = new Updater(this, itemLayout, bannerView);
         updater.downloadAndUpdate(pages.get(0));
 
-        //Menu
+        //Init main Menu
         mainMenu = new MainMenu(this, pages, updater);
         final Button menuButton = (Button) findViewById(R.id.menuButton);
         menuButton.setOnClickListener(new View.OnClickListener() {
@@ -53,7 +54,4 @@ public class MainActivity extends AppCompatActivity {
             updater.handleBackButton();
         }
     }
-
-
-
 }

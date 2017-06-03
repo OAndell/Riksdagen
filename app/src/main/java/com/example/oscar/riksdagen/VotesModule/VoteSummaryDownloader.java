@@ -50,8 +50,4 @@ public class VoteSummaryDownloader extends AsyncTask<String,String,String> {
             return null;
         }
     }
-
-
-
-
 }

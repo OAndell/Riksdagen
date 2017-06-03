@@ -1,4 +1,6 @@
-package com.example.oscar.riksdagen;
+package com.example.oscar.riksdagen.MainModule;
+
+import com.example.oscar.riksdagen.R;
 
 import java.util.ArrayList;
 

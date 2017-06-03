@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 
-import com.example.oscar.riksdagen.ListItem;
+import com.example.oscar.riksdagen.MainModule.ListItem;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

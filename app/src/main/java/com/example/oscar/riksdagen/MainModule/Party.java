@@ -1,4 +1,4 @@
-package com.example.oscar.riksdagen;
+package com.example.oscar.riksdagen.MainModule;
 
 
 /**

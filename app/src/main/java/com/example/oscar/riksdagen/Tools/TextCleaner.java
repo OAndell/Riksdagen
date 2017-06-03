@@ -5,6 +5,8 @@ package com.example.oscar.riksdagen.Tools;
  */
 
 public class TextCleaner {
+
+    //Todo this is not complete
     public static String cleanupText(String in){
         String out = in.replaceAll("&#229;", "å")
                 .replaceAll("&#228;", "ä")
@@ -16,6 +18,6 @@ public class TextCleaner {
                 .replace("</p>","")
                 .replaceAll("&nsbp;"," ")
                 .replaceAll("&nbsp;"," ");
-        return out;//Removes the "&lt;p&gt;" and "&lt;/p&gt;" from the beginning of the document
+        return out;
     }
 }
