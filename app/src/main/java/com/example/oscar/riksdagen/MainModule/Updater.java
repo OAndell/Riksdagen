@@ -91,9 +91,11 @@ public class Updater {
                         readPage.putExtra("url",doc.getElementsByTag("dokument_url_html").text());
                         context.startActivity(readPage);
                     }
-                    else if(doc.getElementsByTag("namn").hasText()){ //Questions
+                    else if(doc.getElementsByTag("namn").hasText()){
                         getHTMLDocument(doc.getElementsByTag("dokument_url_html").text(), doc.getElementsByTag("namn").get(0).text());
-                        getReplyDoc(doc.getElementsByTag("titel").get(0).text());
+                        if(doc.getElementsByTag("doktyp").text().equals("fr")){//Questions
+                            getReplyDoc(doc.getElementsByTag("titel").get(0).text(),doc.getElementsByTag("beteckning").get(0).text());
+                        }
                     }
                     else { //Votes
                         Intent votePage = new Intent(context, VoteActivity.class);
@@ -130,12 +132,13 @@ public class Updater {
      * The content is displayed below the original questions.
      * Calls a ReplyFinder task.
      */
-    private void getReplyDoc(String title){
+    private void getReplyDoc(String title, String id){
+        System.out.println(title);
         ListItem reply = new ListItem(context);
         listLayout.addView(reply);
         title = title.replace(" ", "+");
         reply.setTitle("Svar på skriftlig fråga:");
-        new ReplyFinder(title,reply).execute();
+        new ReplyFinder(title,id,reply).execute();
     }
 
     /**

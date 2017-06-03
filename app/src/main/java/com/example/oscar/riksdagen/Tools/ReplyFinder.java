@@ -15,13 +15,17 @@ import org.jsoup.nodes.Document;
 
 public class ReplyFinder extends AsyncTask<String,String,String> {
 
-    private String apiQuery = "http://data.riksdagen.se/dokumentlista/?sok=";
-    private String docType = "&doktyp=frs";
+    private String apiQuery1 = "http://data.riksdagen.se/dokumentlista/?sok=";
+    private String apiQuery2 = "&doktyp=frs&rm=&from=&tom=&ts=&bet=";
+    private String apiQuery3 = "&tempbet=&nr=&org=&iid=&webbtv=&talare=&exakt=&planering=&sort=datum&sortorder=desc&rapport=&utformat=xml&a=s#soktraff";
+
     private String searchTerm;
+    private String id;
     private ListItem listItem;
 
-    public ReplyFinder(String searchTerm,  ListItem listItem){
-        this.searchTerm = searchTerm;
+    public ReplyFinder(String title, String id,  ListItem listItem){
+        this.searchTerm = title;
+        this.id = id;
         this.listItem = listItem;
     }
 
@@ -40,7 +44,7 @@ public class ReplyFinder extends AsyncTask<String,String,String> {
 
     private String search(){
         try {
-            Document doc = Jsoup.connect(apiQuery+searchTerm.trim()+docType)
+            Document doc = Jsoup.connect(apiQuery1+searchTerm+apiQuery2+id+apiQuery3)
                     .userAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.21 (KHTML, like Gecko) Chrome/19.0.1042.0 Safari/535.21")
                     .timeout(10000)
                     .get();

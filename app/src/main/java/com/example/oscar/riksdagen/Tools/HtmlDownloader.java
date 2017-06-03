@@ -10,7 +10,6 @@ import com.example.oscar.riksdagen.MainModule.ListItem;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-import java.io.IOException;
 
 /**
  * Created by Oscar on 2017-03-26.
@@ -45,7 +44,6 @@ public class HtmlDownloader extends AsyncTask<String, String,Document> {
 
     private Document download() {
         try {
-            System.out.println(url);
             Document doc = Jsoup.connect(url)
                     .userAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.21 (KHTML, like Gecko) Chrome/19.0.1042.0 Safari/535.21")
                     .timeout(10000)
