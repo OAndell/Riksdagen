@@ -3,7 +3,7 @@ Android app to keep track of the Swedish parliament.
 
 This android application uses the API from https://data.riksdagen.se/ to get latest information and events from the Swedish parliament.
 
-My goal in creating this app was firstly to practice Java and Android development but also to create an easy and accesible way to view the work that goes on in the Swedish parlement. An accesible way to see what topics and questions are discussed by our politicians and how they vote on these issues. 
+My goal in creating this app was firstly to practice Java and Android development but also to create an accesible way to view the work that goes on in the Swedish parlement. An easy way to see what topics and questions are discussed by our politicians and how they vote on these issues. 
 
 ## Features: 
  * View the results of votes.
