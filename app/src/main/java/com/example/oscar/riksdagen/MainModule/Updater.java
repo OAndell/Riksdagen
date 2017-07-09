@@ -143,7 +143,6 @@ public class Updater {
      * Calls a ReplyFinder task.
      */
     private void getReplyDoc(String title, String id){
-        System.out.println(title);
         ListItem reply = new ListItem(context);
         listLayout.addView(reply);
         title = title.replace(" ", "+");

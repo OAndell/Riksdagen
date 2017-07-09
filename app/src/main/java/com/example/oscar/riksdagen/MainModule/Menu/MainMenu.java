@@ -8,6 +8,7 @@ import android.widget.PopupWindow;
 
 import com.example.oscar.riksdagen.MainModule.Pages.PageSuper;
 import com.example.oscar.riksdagen.MainModule.Updater;
+import com.example.oscar.riksdagen.R;
 
 import java.util.ArrayList;
 
@@ -32,6 +33,7 @@ public class MainMenu extends PopupWindow {
         this.setContentView(menuLayout);
         this.pages = parties;
         initMenuItems(context);
+        this.setAnimationStyle(R.style.animationMenu);
     }
 
     private void initMenuItems(Context context){
