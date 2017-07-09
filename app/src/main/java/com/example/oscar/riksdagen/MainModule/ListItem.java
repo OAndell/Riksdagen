@@ -58,7 +58,7 @@ public class ListItem extends LinearLayout{
 
     public void addImage(Bitmap img){
         if(img!=null){
-            Bitmap imgScaled = Bitmap.createScaledBitmap(img,192,256, true); //Rescale bitmap is nessary for some reason
+            Bitmap imgScaled = Bitmap.createScaledBitmap(img,192,256, true); //Rescale bitmap is necessary for some reason
             imageView.setPadding(0,0,20,0);
             imageView.setImageBitmap(imgScaled);
         }

@@ -5,8 +5,12 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.example.oscar.riksdagen.MainModule.Pages.Page;
+import com.example.oscar.riksdagen.MainModule.Pages.PageSuper;
+import com.example.oscar.riksdagen.MainModule.Pages.Party;
 import com.example.oscar.riksdagen.ReadModule.ReadActivity;
 import com.example.oscar.riksdagen.Tools.APIParser;
 import com.example.oscar.riksdagen.Tools.HtmlDownloader;
@@ -31,33 +35,38 @@ public class Updater {
     private LinearLayout listLayout;
     private ImageView banner;
     private Context context;
-    private Stack<Page> backStack = new Stack<>(); //Stores history of visited pages
+    private Stack<PageSuper> backStack = new Stack<>(); //Stores history of visited pages
     private boolean documentView = false;
+    private PageSuper currentPage;
+    private ScrollView scrollView;
 
-    public Updater(Context context, LinearLayout listLayout, ImageView banner){
+    public Updater(Context context, LinearLayout listLayout, ImageView banner , ScrollView scrollView){
         this.listLayout = listLayout;
         this.context = context;
         this.banner = banner;
+        this.scrollView = scrollView;
     }
 
-    public void downloadAndUpdate(Page page){
+    public void downloadAndUpdate(PageSuper page){
+        currentPage = page;
+        listLayout.removeAllViews();
+        scrollView.scrollTo(0,0);
         backStack.push(page);
         updateBanner(page.getBanner());
         documentView = false;
         if(page.getClass() == Party.class){
-            Party party =  (Party) page;
-            new APIParser(this, party.getID()).execute();
-        }else{
-            new APIParser(this,page).execute();
+            new APIParser(this,(Party)page).execute();
+        }
+        else{
+            new APIParser(this,(Page) page).execute();
         }
     }
 
     /**
-     * Update with xml api query
+     * Update with xml api query, called by async task
      * @param xml
      */
     public void update(String xml){
-        listLayout.removeAllViews();
         Document xmlDoc = Jsoup.parse(xml);
         final Elements allDocs = xmlDoc.getElementsByTag("dokument");
         for (int i = 0; i < allDocs.size(); i++) {
@@ -67,6 +76,7 @@ public class Updater {
         sourceTxt.setText("Källa: www.riksdagen.se");
         sourceTxt.setTextSize(9);
         listLayout.addView(sourceTxt);
+        listLayout.addView(new PageNavigator(context, this));
     }
 
     /**
@@ -128,7 +138,7 @@ public class Updater {
     }
 
     /**
-     * Find and dispay replies to written questions.
+     * Find and display replies to written questions.
      * The content is displayed below the original questions.
      * Calls a ReplyFinder task.
      */
@@ -161,5 +171,13 @@ public class Updater {
                 downloadAndUpdate(backStack.pop());
             }
         }
+    }
+
+    public PageSuper getCurrentPage(){
+        return currentPage;
+    }
+
+    public ScrollView getScrollView() {
+        return scrollView;
     }
 }

@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.oscar.riksdagen.MainModule.Page;
+import com.example.oscar.riksdagen.MainModule.Pages.PageSuper;
 
 /**
  * Created by Oscar on 2017-03-24.
@@ -20,7 +20,7 @@ public class MenuItem extends LinearLayout{
     private int HEIGHT  = 150;
 
 
-    public MenuItem(Context context, Page party) {
+    public MenuItem(Context context, PageSuper party) {
         super(context);
         this.setOrientation(HORIZONTAL);
         this.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, HEIGHT));

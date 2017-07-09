@@ -5,8 +5,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 import com.example.oscar.riksdagen.MainModule.Menu.MainMenu;
+import com.example.oscar.riksdagen.MainModule.Pages.PageSuper;
 import com.example.oscar.riksdagen.R;
 
 import java.util.ArrayList;
@@ -15,7 +17,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     private MainMenu mainMenu;
-    private ArrayList<Page> pages = new ArrayList<>();
+    private ArrayList<PageSuper> pages = new ArrayList<>();
     private Updater updater;
 
     @Override
@@ -26,7 +28,8 @@ public class MainActivity extends AppCompatActivity {
         pages = Data.getPages();
         LinearLayout itemLayout = (LinearLayout) findViewById(R.id.itemLayout);
         ImageView bannerView = (ImageView) findViewById(R.id.bannerImage) ;
-        updater = new Updater(this, itemLayout, bannerView);
+        ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
+        updater = new Updater(this, itemLayout, bannerView, scrollView);
         updater.downloadAndUpdate(pages.get(0));
 
         //Init main Menu

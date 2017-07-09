@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
-import com.example.oscar.riksdagen.MainModule.Page;
+import com.example.oscar.riksdagen.MainModule.Pages.PageSuper;
 import com.example.oscar.riksdagen.MainModule.Updater;
 
 import java.util.ArrayList;
@@ -17,12 +17,12 @@ import java.util.ArrayList;
 
 public class MainMenu extends PopupWindow {
 
-    private ArrayList<Page> pages;
+    private ArrayList<PageSuper> pages;
     private LinearLayout menuLayout;
     private Updater updater;
     private PopupWindow thisPopupMenu;
 
-    public MainMenu(Context context, ArrayList<Page> parties, Updater updater) {
+    public MainMenu(Context context, ArrayList<PageSuper> parties, Updater updater) {
         super(context);
         this.updater = updater;
         thisPopupMenu = this;
@@ -41,14 +41,12 @@ public class MainMenu extends PopupWindow {
             menuItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    pages.get(finalI).resetPageNumber(); //start at first page
                     updater.downloadAndUpdate(pages.get(finalI));
                     thisPopupMenu.dismiss();
                 }
             });
             menuLayout.addView(menuItem);
         }
-
     }
-
-
 }

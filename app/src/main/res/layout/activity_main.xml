@@ -28,9 +28,8 @@
                 android:layout_width="57dp"
                 android:layout_height="match_parent"
                 android:id="@+id/menuButton"
-                android:elevation="24dp"
-                style="@android:style/Widget.Button"
-                android:background="@drawable/menuiconblue" />
+                style="?android:attr/borderlessButtonStyle"
+                android:background="@drawable/menuicon" />
 
             <ImageView
                 android:layout_width="match_parent"
@@ -45,6 +44,7 @@
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="3dp"
             android:layout_width="fill_parent"
+            android:id="@+id/scrollView"
             android:layout_height="wrap_content">
 
             <LinearLayout

@@ -2,7 +2,8 @@ package com.example.oscar.riksdagen.Tools;
 
 import android.os.AsyncTask;
 
-import com.example.oscar.riksdagen.MainModule.Page;
+import com.example.oscar.riksdagen.MainModule.Pages.Page;
+import com.example.oscar.riksdagen.MainModule.Pages.Party;
 import com.example.oscar.riksdagen.MainModule.Updater;
 
 import org.jsoup.Jsoup;
@@ -20,9 +21,9 @@ public class APIParser extends AsyncTask<String, String, String> {
     private Updater updater;
     private String query;
 
-    public APIParser(Updater updater, String partyID){
+    public APIParser(Updater updater, Party party){
         this.updater = updater;
-        query = "https://data.riksdagen.se/dokumentlista2/?avd=dokument&del=dokument&facets=3&parti="+partyID+"&fcs=1&sort=datum&sortorder=desc&utformat=xml";
+        query = "https://data.riksdagen.se/dokumentlista2/?avd=dokument&del=dokument&facets=3&parti="+party.getID()+"&fcs=1&sort=datum&sortorder=desc&utformat=xml&p="+ party.getPageNumber();
     }
 
     public APIParser(Updater updater, Page page){

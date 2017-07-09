@@ -63,6 +63,12 @@ public class VoteActivity extends AppCompatActivity {
         GraphView graphTotal = (GraphView) findViewById(R.id.votegraphTotal);
         graphs.add(graphTotal);
 
+        //Set no background grid and no vertical labels for all graphs
+        for (int i = 0; i < graphs.size(); i++) {
+            graphs.get(i).getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.NONE);
+            graphs.get(i).getGridLabelRenderer().setVerticalLabelsVisible(false);
+        }
+
 
         TextView descTextView = (TextView) findViewById(R.id.descText);
         descTextView.setTextColor(Color.BLACK);
@@ -71,7 +77,7 @@ public class VoteActivity extends AppCompatActivity {
         //Download and setup bargraphs
         new VoteTableDownloader(myIntent.getStringExtra("pageURL"),graphs).execute();
 
-
+        //TODO fix image
         //init "go back" button
         Button backButton = (Button) findViewById(R.id.backButton);
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -129,8 +135,6 @@ public class VoteActivity extends AppCompatActivity {
         StaticLabelsFormatter staticLabelsFormatter = new StaticLabelsFormatter(graph);
         staticLabelsFormatter.setHorizontalLabels(new String[] {"","Ja","Nej","Avst.","Frånv.",""});
         graph.getGridLabelRenderer().setLabelFormatter(staticLabelsFormatter);
-        graph.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.NONE);
-        graph.getGridLabelRenderer().setVerticalLabelsVisible(false);
         if(hideLabels){
             graph.getGridLabelRenderer().setHorizontalLabelsVisible(false);
             graph.getViewport().setYAxisBoundsManual(true);
