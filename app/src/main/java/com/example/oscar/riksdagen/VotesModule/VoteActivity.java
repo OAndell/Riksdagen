@@ -88,12 +88,13 @@ public class VoteActivity extends AppCompatActivity {
         });
 
         //init read more button
-        TextView readMoreButton = (TextView) findViewById(R.id.readMoreTextView);
+        final TextView readMoreButton = (TextView) findViewById(R.id.readMoreTextView);
         readMoreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent readPage = new Intent(context, ReadActivity.class);
                 readPage.putExtra("url",fullTextUrl);
+                readPage.putExtra("bannerImage",R.drawable.votbanner);
                 context.startActivity(readPage);
             }
         });

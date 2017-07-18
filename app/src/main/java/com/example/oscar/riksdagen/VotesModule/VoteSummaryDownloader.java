@@ -1,6 +1,8 @@
 package com.example.oscar.riksdagen.VotesModule;
 
 import android.os.AsyncTask;
+import android.os.Build;
+import android.text.Html;
 import android.widget.TextView;
 
 import com.example.oscar.riksdagen.Tools.TextCleaner;
@@ -34,7 +36,9 @@ public class VoteSummaryDownloader extends AsyncTask<String,String,String> {
 
     @Override
     protected void onPostExecute(String results){
-        textView.setText("\n"+ TextCleaner.cleanupText(results));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            textView.setText(Html.fromHtml(results,Html.FROM_HTML_OPTION_USE_CSS_COLORS).toString());
+        }
     }
 
     private String search(){

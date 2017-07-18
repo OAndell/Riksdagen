@@ -39,7 +39,7 @@ public class HtmlDownloader extends AsyncTask<String, String,Document> {
             result.getElementsByClass("till").remove();
             result.getElementsByTag("style").remove();
             listItem.setText(Html.fromHtml(result.html(),Html.FROM_HTML_OPTION_USE_CSS_COLORS ).toString());
-        }
+    }
     }
 
     private Document download() {

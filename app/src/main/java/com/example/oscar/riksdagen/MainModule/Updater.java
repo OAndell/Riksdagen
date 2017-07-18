@@ -2,6 +2,8 @@ package com.example.oscar.riksdagen.MainModule;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+import android.text.Html;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -87,42 +89,29 @@ public class Updater {
         banner.setImageResource(img);
     }
 
+    /**
+     * Create a listItem customized according to the current page.
+     */
     private void createItem(final Element doc){
-        final ListItem item = new ListItem(context);
-        if(doc.getElementsByTag("debattnamn").get(0).text().length() > 0){ //Check to see if you should look for summaries instead of documents, Not great code....
-            item.setTitle(doc.getElementsByTag("titel").get(0).text() + " (" + doc.getElementsByTag("debattnamn").get(0).text() +")" );
-            item.setText(doc.getElementsByTag("undertitel").get(0).text());
-            item.setText(item.getText() + "\n" + doc.getElementsByTag("systemdatum").get(0).text());
-            item.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(doc.getElementsByTag("doktyp").text().equals("mot")){//Start ReadActvity for motions.
-                        Intent readPage = new Intent(context, ReadActivity.class);
-                        readPage.putExtra("url",doc.getElementsByTag("dokument_url_html").text());
-                        context.startActivity(readPage);
-                    }
-                    else if(doc.getElementsByTag("namn").hasText()){
-                        getHTMLDocument(doc.getElementsByTag("dokument_url_html").text(), doc.getElementsByTag("namn").get(0).text());
-                        if(doc.getElementsByTag("doktyp").text().equals("fr")){//Questions
-                            getReplyDoc(doc.getElementsByTag("titel").get(0).text(),doc.getElementsByTag("beteckning").get(0).text());
-                        }
-                    }
-                    else { //Votes
-                        Intent votePage = new Intent(context, VoteActivity.class);
-                        votePage.putExtra("pageURL", doc.getElementsByTag("dokument_url_html").text());
-                        votePage.putExtra("pageDesc", doc.getElementsByTag("titel").get(0).text());
-                        context.startActivity(votePage);
-                    }
-                    documentView = true;
-                }
-            });
-            listLayout.addView(item);
-        }else{ //Items fot start page
-            item.setTitle(doc.getElementsByTag("titel").get(0).text());
-            item.setText(TextCleaner.cleanupText(doc.getElementsByTag("summary").get(0).text()));
-            item.setText(item.getText() + "\n" + doc.getElementsByTag("systemdatum").get(0).text());
-            listLayout.addView(item);
+        ListItem item = new ListItem(context);
+        if(doc.getElementsByTag("debattnamn").get(0).text().length() > 0){ //Check to see if you should look for summaries instead of documents
+            if(currentPage.getClass() == Party.class) {
+                createPartyItem(doc, item);
+            }
+            else if(doc.getElementsByTag("doktyp").text().equals("prot")){
+                    createProtocolItem(doc, item);
+            }
+            else if(doc.getElementsByTag("doktyp").text().equals("votering")){
+                createVoteItem(doc, item);
+            }
+            else if(doc.getElementsByTag("doktyp").text().equals("bet")){
+                createBetItem(doc, item);
+            }
         }
+        else{
+            createNonClickableItem(doc, item);
+        }
+        listLayout.addView(item);
     }
 
     /**
@@ -178,5 +167,93 @@ public class Updater {
 
     public ScrollView getScrollView() {
         return scrollView;
+    }
+
+    /**
+     * Create non interactive items for startpage.
+     */
+    private void createNonClickableItem(Element doc, ListItem item){
+        item.setTitle(doc.getElementsByTag("titel").get(0).text());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) { //TODO look up how to deal with this
+            String summary = Html.fromHtml(doc.getElementsByTag("summary").get(0).text(),Html.FROM_HTML_OPTION_USE_CSS_COLORS).toString();
+            item.setText(TextCleaner.cleanupText(summary));
+        }
+        item.setText(item.getText() + "\n" + doc.getElementsByTag("systemdatum").get(0).text());
+    }
+
+    /**
+     * Add list items for the party specific pages
+     */
+    private void createPartyItem(final Element doc, ListItem item){
+        item.setTitle(doc.getElementsByTag("titel").get(0).text() + " (" + doc.getElementsByTag("debattnamn").get(0).text() +")" );
+        item.setText(doc.getElementsByTag("undertitel").get(0).text());
+        item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(doc.getElementsByTag("doktyp").text().equals("mot") ){//Start ReadActvity for motions.
+                    Intent readPage = new Intent(context, ReadActivity.class);
+                    readPage.putExtra("url",doc.getElementsByTag("dokument_url_html").text());
+                    readPage.putExtra("bannerImage", currentPage.getBanner());
+                    context.startActivity(readPage);
+                }
+                else if(doc.getElementsByTag("namn").hasText()){
+                    getHTMLDocument(doc.getElementsByTag("dokument_url_html").text(), doc.getElementsByTag("namn").get(0).text());
+                    if(doc.getElementsByTag("doktyp").text().equals("fr")){//Questions
+                        getReplyDoc(doc.getElementsByTag("titel").get(0).text(),doc.getElementsByTag("beteckning").get(0).text());
+                    }
+                }
+                documentView = true;
+            }
+        });
+    }
+
+    /**
+     *Create specific listItem for the vote page
+     */
+    private void createVoteItem(final Element doc, ListItem item){
+        item.setTitle(doc.getElementsByTag("titel").get(0).text());
+        item.setText(doc.getElementsByTag("undertitel").get(0).text());
+        item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent votePage = new Intent(context, VoteActivity.class);
+                votePage.putExtra("pageURL", doc.getElementsByTag("dokument_url_html").text());
+                votePage.putExtra("pageDesc", doc.getElementsByTag("titel").get(0).text());
+                context.startActivity(votePage);
+            }
+        });
+    }
+
+    /**
+     *Create specific listItem for the protocol page
+     */
+    private void createProtocolItem(final Element doc, ListItem item){
+        item.setTitle(doc.getElementsByTag("titel").get(0).text());
+        item.setText(doc.getElementsByTag("summary").get(0).text()+ "...");
+        item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent readPage = new Intent(context, ReadActivity.class);
+                readPage.putExtra("url",doc.getElementsByTag("dokument_url_html").text());
+                readPage.putExtra("bannerImage", currentPage.getBanner());
+                context.startActivity(readPage);
+            }
+        });
+    }
+
+    private void createBetItem(final Element doc, ListItem item){
+        item.setTitle(doc.getElementsByTag("notisrubrik").get(0).text());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {//Todo look up on how to deal with this
+            item.setText(Html.fromHtml(doc.getElementsByTag("notis").get(0).text(),Html.FROM_HTML_OPTION_USE_CSS_COLORS).toString());
+        }
+        item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent readPage = new Intent(context, ReadActivity.class);
+                readPage.putExtra("url",doc.getElementsByTag("dokument_url_html").text());
+                readPage.putExtra("bannerImage", currentPage.getBanner());
+                context.startActivity(readPage);
+            }
+        });
     }
 }

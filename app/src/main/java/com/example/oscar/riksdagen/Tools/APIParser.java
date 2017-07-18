@@ -33,7 +33,7 @@ public class APIParser extends AsyncTask<String, String, String> {
 
     @Override
     protected String doInBackground(String... strings) {
-        return downloadJSON();
+        return download();
     }
 
     @Override
@@ -41,7 +41,7 @@ public class APIParser extends AsyncTask<String, String, String> {
         updater.update(result);
     }
 
-    private String downloadJSON() {
+    private String download() {
         try {
             Document doc = Jsoup.connect(query)
                     .userAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.21 (KHTML, like Gecko) Chrome/19.0.1042.0 Safari/535.21")

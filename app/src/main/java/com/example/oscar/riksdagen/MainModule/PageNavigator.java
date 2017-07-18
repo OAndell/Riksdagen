@@ -12,7 +12,6 @@ import com.example.oscar.riksdagen.R;
 
 /**
  * Created by oscar on 2017-07-08.
-
  */
 
 public class PageNavigator extends LinearLayout {
@@ -27,16 +26,20 @@ public class PageNavigator extends LinearLayout {
         TextView currentPageText = new TextView(context);
         currentPageText.setText("Sida: " + updater.getCurrentPage().getPageNumber());
         currentPageText.setTypeface(Typeface.DEFAULT_BOLD);
-        currentPageText.setPadding(0,20,0,0);
+        currentPageText.setPadding(0,20,20,0);
+
+        LayoutParams arrowSize = new LayoutParams(180,90);
 
         ImageView prevArrow = new ImageView(context);
+        prevArrow.setLayoutParams(arrowSize);
         if(updater.getCurrentPage().getPageNumber() == 1){
             prevArrow.setImageResource(R.drawable.arrowleftgray);
         }
         else {
             prevArrow.setImageResource(R.drawable.arrowleft);
         }
-        prevArrow.setPadding(70,0,20,0);
+        prevArrow.setPadding(20,0,0,0);
+
 
         prevArrow.setOnClickListener(new OnClickListener() {
             @Override
@@ -49,6 +52,7 @@ public class PageNavigator extends LinearLayout {
         });
 
         ImageView nextArrow = new ImageView(context);
+        nextArrow.setLayoutParams(arrowSize);
         nextArrow.setImageResource(R.drawable.arrowright);
         nextArrow.setPadding(20,0,0,0);
         nextArrow .setOnClickListener(new OnClickListener() {
@@ -59,12 +63,14 @@ public class PageNavigator extends LinearLayout {
             }
         });
 
-
+        View arrowDivider = new View(context);
+        arrowDivider.setLayoutParams(arrowSize);
 
         currentPageText.setTextColor(Color.BLACK);
 
         this.addView(currentPageText);
         this.addView(prevArrow);
+        this.addView(arrowDivider);
         this.addView(nextArrow);
     }
 

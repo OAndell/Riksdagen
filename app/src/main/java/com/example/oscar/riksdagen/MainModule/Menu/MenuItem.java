@@ -16,8 +16,9 @@ import com.example.oscar.riksdagen.MainModule.Pages.PageSuper;
 
 public class MenuItem extends LinearLayout{
 
-    private int TEXT_SIZE = 25; //TODO probably make these smaller
-    private int HEIGHT  = 150;
+    private int TEXT_SIZE = 22;
+    private int HEIGHT  = 120;
+    private int HORIZONTALPADDING = 20;
 
 
     public MenuItem(Context context, PageSuper party) {
@@ -28,8 +29,9 @@ public class MenuItem extends LinearLayout{
         textView.setText(party.getName());
         textView.setTextSize(TEXT_SIZE);
         textView.setTextColor(Color.BLACK);
+        textView.setPadding(HORIZONTALPADDING,0,HORIZONTALPADDING,0);
         ImageView imageView = new ImageView(context);
-        LayoutParams imageParams = new LayoutParams(130, 130);
+        LayoutParams imageParams = new LayoutParams(110, 110);
         imageParams.gravity = Gravity.LEFT;
         imageView.setLayoutParams(imageParams);
         imageView.setImageResource(party.getSymbol());

@@ -8,6 +8,7 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.example.oscar.riksdagen.R;
 
@@ -24,6 +25,9 @@ public class ReadActivity extends AppCompatActivity {
         setContentView(R.layout.activity_read);
         Intent myIntent = getIntent();
         String url = myIntent.getStringExtra("url");
+
+        ImageView bannerImage = (ImageView) findViewById(R.id.bannerImage);
+        bannerImage.setImageResource(myIntent.getIntExtra("bannerImage",R.drawable.topbanner));
 
         //TODO fix window size
         WebView webView = (WebView) findViewById(R.id.webView);
