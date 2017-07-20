@@ -17,7 +17,8 @@ public class ListItem extends LinearLayout{
 
     private TextView titleTextView;
     private TextView contentTextView;
-    private ImageView imageView;
+    private ImageView portraitImageView;
+    private ImageView bottomImageView;
 
     public ListItem(Context context) {
         super(context);
@@ -41,11 +42,14 @@ public class ListItem extends LinearLayout{
         this.addView(contentTextView);
 
         //Image view to display document author portraits
-        imageView = new ImageView(context);
-        imageView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-        imageAndTitleLayout.addView(imageView);
+        portraitImageView = new ImageView(context);
+        portraitImageView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+        imageAndTitleLayout.addView(portraitImageView);
         imageAndTitleLayout.addView(titleTextView);
 
+        bottomImageView = new ImageView(context);
+        bottomImageView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+        this.addView(bottomImageView);
 
         this.setPadding(0,0,0,25);
 
@@ -56,11 +60,18 @@ public class ListItem extends LinearLayout{
         this.addView(divider);
     }
 
-    public void addImage(Bitmap img){
+    public void addPortrait(Bitmap img){
         if(img!=null){
             Bitmap imgScaled = Bitmap.createScaledBitmap(img,192,256, true); //Rescale bitmap is necessary for some reason
-            imageView.setPadding(0,0,20,0);
-            imageView.setImageBitmap(imgScaled);
+            portraitImageView.setPadding(0,0,20,0);
+            portraitImageView.setImageBitmap(imgScaled);
+        }
+    }
+
+    public void addImage(Bitmap img){
+        if(img!=null){
+            bottomImageView.setPadding(10,20,10,20);
+            bottomImageView.setImageBitmap(img);
         }
     }
 

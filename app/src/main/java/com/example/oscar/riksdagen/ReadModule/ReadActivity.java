@@ -29,7 +29,6 @@ public class ReadActivity extends AppCompatActivity {
         ImageView bannerImage = (ImageView) findViewById(R.id.bannerImage);
         bannerImage.setImageResource(myIntent.getIntExtra("bannerImage",R.drawable.topbanner));
 
-        //TODO fix window size
         WebView webView = (WebView) findViewById(R.id.webView);
         webView.getSettings().setBuiltInZoomControls(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {

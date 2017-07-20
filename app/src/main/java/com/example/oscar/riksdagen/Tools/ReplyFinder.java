@@ -39,7 +39,9 @@ public class ReplyFinder extends AsyncTask<String,String,String> {
         if(results != null){
             new HtmlDownloader(listItem,results).execute();
         }
-        else listItem.setText("(ej besvarad)");
+        else{
+            listItem.setText("(ej besvarad)");
+        }
     }
 
     private String search(){

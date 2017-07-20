@@ -6,7 +6,7 @@ package com.example.oscar.riksdagen.Tools;
 
 public class TextCleaner {
 
-    //Todo this is not complete
+    //Todo is this class needed?
     public static String cleanupText(String in){
         String out = in.replaceAll("&#229;", "å")
                 .replaceAll("&#228;", "ä")

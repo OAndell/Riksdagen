@@ -2,6 +2,7 @@ package com.example.oscar.riksdagen.MainModule;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.text.Html;
 import android.view.View;
@@ -26,21 +27,23 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 
 /**
  * Created by Oscar on 2017-03-24.
  */
-
 public class Updater {
     private LinearLayout listLayout;
     private ImageView banner;
     private Context context;
     private Stack<PageSuper> backStack = new Stack<>(); //Stores history of visited pages
+    private ArrayList<AsyncTask> threadList= new ArrayList<>();
     private boolean documentView = false;
     private PageSuper currentPage;
     private ScrollView scrollView;
+
 
     public Updater(Context context, LinearLayout listLayout, ImageView banner , ScrollView scrollView){
         this.listLayout = listLayout;
@@ -49,7 +52,11 @@ public class Updater {
         this.scrollView = scrollView;
     }
 
+    /**
+     * Called to switch to another page.
+     */
     public void downloadAndUpdate(PageSuper page){
+        closeAllThreads();
         currentPage = page;
         listLayout.removeAllViews();
         scrollView.scrollTo(0,0);
@@ -60,7 +67,7 @@ public class Updater {
             new APIParser(this,(Party)page).execute();
         }
         else{
-            new APIParser(this,(Page) page).execute();
+            new APIParser(this,(Page)page).execute();
         }
     }
 
@@ -122,8 +129,12 @@ public class Updater {
         listLayout.removeAllViews();
         ListItem item = new ListItem(context);
         listLayout.addView(item);
-        new ImageDownloader(item, name).execute();
-        new HtmlDownloader(item, url).execute();
+        ImageDownloader imageDownloader = new ImageDownloader(item, name, ImageDownloader.INPUT_NAME);
+        imageDownloader.execute();
+        HtmlDownloader htmlDownloader = new HtmlDownloader(item,url);
+        htmlDownloader.execute();
+        threadList.add(imageDownloader);
+        threadList.add(htmlDownloader);
     }
 
     /**
@@ -136,7 +147,9 @@ public class Updater {
         listLayout.addView(reply);
         title = title.replace(" ", "+");
         reply.setTitle("Svar på skriftlig fråga:");
-        new ReplyFinder(title,id,reply).execute();
+        ReplyFinder replyFinder = new ReplyFinder(title,id,reply);
+        replyFinder.execute();
+        threadList.add(replyFinder);
     }
 
     /**
@@ -161,12 +174,17 @@ public class Updater {
         }
     }
 
-    public PageSuper getCurrentPage(){
-        return currentPage;
+    /**
+     * Close all current AsyncTask. Called when switching page to make loading faster.
+     */
+    private void closeAllThreads(){
+        for (int i = 0; i < threadList.size(); i++) {
+            threadList.get(i).cancel(true);
+        }
     }
 
-    public ScrollView getScrollView() {
-        return scrollView;
+    public PageSuper getCurrentPage(){
+        return currentPage;
     }
 
     /**
@@ -179,6 +197,9 @@ public class Updater {
             item.setText(TextCleaner.cleanupText(summary));
         }
         item.setText(item.getText() + "\n" + doc.getElementsByTag("systemdatum").get(0).text());
+        ImageDownloader imageDownloader = new ImageDownloader(item, "http://www.riksdagen.se" + doc.getElementsByTag("img_url").get(0).text(), ImageDownloader.INPUT_URL);
+        imageDownloader.execute();
+        threadList.add(imageDownloader);
     }
 
     /**

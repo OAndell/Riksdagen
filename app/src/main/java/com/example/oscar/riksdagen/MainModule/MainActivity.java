@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         pages.add(new Party("Vänsterpartiet",R.drawable.vlogo,R.drawable.vbanner, "V"));
         pages.add(new Party("Liberalerna",R.drawable.llogo,R.drawable.lbanner, "L"));
         pages.add(new Party("Kristdemokraterna",R.drawable.kdlogo, R.drawable.kdbanner,"KD"));
-        pages.add(new Page("Riksdagsbeslut", R.drawable.votlogo, R.drawable.votbanner, "https://data.riksdagen.se/dokumentlista2/?avd=dokument&doktyp=bet&beslutad=1&sort=beslutsdag&sortorder=desc&utformat=xml&p="));
+        pages.add(new Page("Riksdagsbeslut", R.drawable.betlogo, R.drawable.betbanner, "https://data.riksdagen.se/dokumentlista2/?avd=dokument&doktyp=bet&beslutad=1&sort=beslutsdag&sortorder=desc&utformat=xml&p="));
         pages.add(new Page("Voteringar",R.drawable.votlogo ,R.drawable.votbanner,"http://data.riksdagen.se/dokumentlista/?sok=&doktyp=votering&rm=&sort=dat&sortorder=desc&rapport=&utformat=xml&p="));
         pages.add(new Page("Kammarprotokoll", R.drawable.protlogo, R.drawable.protbanner, "http://data.riksdagen.se/dokumentlista/?sok=&doktyp=prot&sort=datum&sortorder=desc&utformat=xml&p="));
     }

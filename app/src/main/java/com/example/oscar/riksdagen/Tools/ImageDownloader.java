@@ -18,12 +18,23 @@ import java.net.URL;
  */
 public class ImageDownloader extends AsyncTask<String,Void,Bitmap> {
 
-    private ListItem listItem;
-    String query;
+    public static int INPUT_NAME = 0;
+    public static int INPUT_URL = 1;
 
-    public ImageDownloader(ListItem listItem, String name){
+    private ListItem listItem;
+    private String query;
+    private int currentSetting;
+
+    public ImageDownloader(ListItem listItem, String input, int setting){
         this.listItem = listItem;
-        query = "http://data.riksdagen.se/personlista/?iid=&fnamn="+ name.split(" ")[0].trim() +"&enamn="+ name.split(" ")[1].trim() +"&f_ar=&kn=&parti=&valkrets=&rdlstatus=&org=&utformat=xml&termlista=";
+        currentSetting = setting;
+        if(setting == INPUT_NAME){
+            query = "http://data.riksdagen.se/personlista/?iid=&fnamn="+ input.split(" ")[0].trim() +"&enamn="+ input.split(" ")[1].trim() +"&utformat=xml&termlista=";
+        }
+        if(setting == INPUT_URL){
+            query = input;
+        }
+
     }
 
     @Override
@@ -33,24 +44,37 @@ public class ImageDownloader extends AsyncTask<String,Void,Bitmap> {
 
     @Override
     protected void onPostExecute(Bitmap image){
-        listItem.addImage(image);
+        if(currentSetting == INPUT_NAME){
+            listItem.addPortrait(image);
+        }
+        if(currentSetting == INPUT_URL){
+            listItem.addImage(image);
+        }
     }
 
     private Bitmap downloadJSON() {
-        try {
-            Document doc = Jsoup.connect(query)
-                    .userAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.21 (KHTML, like Gecko) Chrome/19.0.1042.0 Safari/535.21")
-                    .timeout(10000)
-                    .get();
-            final Bitmap image_;
-            if(doc.getElementsByTag("bild_url_192").size() > 0){
-                image_ = BitmapFactory.decodeStream( (InputStream) new URL(doc.getElementsByTag("bild_url_192").get(0).text()).getContent());
-                return image_;
-
-            }else{
+        if(currentSetting == INPUT_NAME){
+            try {
+                Document doc = Jsoup.connect(query)
+                        .userAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.21 (KHTML, like Gecko) Chrome/19.0.1042.0 Safari/535.21")
+                        .timeout(10000)
+                        .get();
+                return getImage(doc.getElementsByTag("bild_url_192").get(0).text());
+            } catch (IOException e) {
                 return null;
             }
+        }
+        if(currentSetting == INPUT_URL){
+            return getImage(query);
+        }
+        else{
+            return null;
+        }
+    }
 
+    public static Bitmap getImage(String url){
+        try {
+            return BitmapFactory.decodeStream( (InputStream) new URL(url).getContent());
         } catch (IOException e) {
             return null;
         }
