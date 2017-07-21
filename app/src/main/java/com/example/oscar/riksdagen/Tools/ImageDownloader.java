@@ -59,12 +59,15 @@ public class ImageDownloader extends AsyncTask<String,Void,Bitmap> {
                         .userAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.21 (KHTML, like Gecko) Chrome/19.0.1042.0 Safari/535.21")
                         .timeout(10000)
                         .get();
-                return getImage(doc.getElementsByTag("bild_url_192").get(0).text());
+                if(doc.getElementsByTag("bild_url_192").size() > 0){
+                    return getImage(doc.getElementsByTag("bild_url_192").get(0).text());
+                }
+                return null;
             } catch (IOException e) {
                 return null;
             }
         }
-        if(currentSetting == INPUT_URL){
+        else if(currentSetting == INPUT_URL){
             return getImage(query);
         }
         else{

@@ -17,8 +17,10 @@ public class ListItem extends LinearLayout{
 
     private TextView titleTextView;
     private TextView contentTextView;
+    private TextView footerTextView;
     private ImageView portraitImageView;
     private ImageView bottomImageView;
+    private View divider;
 
     public ListItem(Context context) {
         super(context);
@@ -51,10 +53,16 @@ public class ListItem extends LinearLayout{
         bottomImageView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         this.addView(bottomImageView);
 
+
+        footerTextView = new TextView(context);
+        footerTextView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+        this.addView(footerTextView);
+
+
         this.setPadding(0,0,0,25);
 
         //Black line to divide list items
-        View divider = new View(context);
+        divider = new View(context);
         divider.setBackgroundColor(Color.BLACK);
         divider.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 2));
         this.addView(divider);
@@ -70,7 +78,6 @@ public class ListItem extends LinearLayout{
 
     public void addImage(Bitmap img){
         if(img!=null){
-            bottomImageView.setPadding(10,20,10,20);
             bottomImageView.setImageBitmap(img);
         }
     }
@@ -89,6 +96,10 @@ public class ListItem extends LinearLayout{
 
     public String getText(){
         return contentTextView.getText().toString();
+    }
+
+    public TextView getFooterTextView(){
+        return footerTextView;
     }
 
 

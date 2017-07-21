@@ -5,8 +5,6 @@ import com.example.oscar.riksdagen.MainModule.ListItem;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-
-
 /**
  * Created by Oscar on 2017-06-03.
  * Finds the reply to written question be searching for the title, using doctype=frs as a filter
@@ -16,8 +14,8 @@ import org.jsoup.nodes.Document;
 public class ReplyFinder extends AsyncTask<String,String,String> {
 
     private String apiQuery1 = "http://data.riksdagen.se/dokumentlista/?sok=";
-    private String apiQuery2 = "&doktyp=frs&rm=&from=&tom=&ts=&bet=";
-    private String apiQuery3 = "&tempbet=&nr=&org=&iid=&webbtv=&talare=&exakt=&planering=&sort=datum&sortorder=desc&rapport=&utformat=xml&a=s#soktraff";
+    private String apiQuery2 = "&doktyp=frs&bet=";
+    private String apiQuery3 = "&sort=datum&sortorder=desc&rapport=&utformat=xml&a=s#soktraff";
 
     private String searchTerm;
     private String id;

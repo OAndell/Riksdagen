@@ -2,10 +2,12 @@ package com.example.oscar.riksdagen.MainModule;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.text.Html;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 import com.example.oscar.riksdagen.MainModule.Pages.Page;
 import com.example.oscar.riksdagen.MainModule.Pages.PageSuper;
 import com.example.oscar.riksdagen.MainModule.Pages.Party;
+import com.example.oscar.riksdagen.R;
 import com.example.oscar.riksdagen.ReadModule.ReadActivity;
 import com.example.oscar.riksdagen.Tools.APIParser;
 import com.example.oscar.riksdagen.Tools.HtmlDownloader;
@@ -43,7 +46,6 @@ public class Updater {
     private boolean documentView = false;
     private PageSuper currentPage;
     private ScrollView scrollView;
-
 
     public Updater(Context context, LinearLayout listLayout, ImageView banner , ScrollView scrollView){
         this.listLayout = listLayout;
@@ -85,7 +87,15 @@ public class Updater {
         sourceTxt.setText("Källa: www.riksdagen.se");
         sourceTxt.setTextSize(9);
         listLayout.addView(sourceTxt);
-        listLayout.addView(new PageNavigator(context, this));
+        if(allDocs.size() > 19){
+            listLayout.addView(new PageNavigator(context, this));
+        }
+    }
+
+    private void update(ListItem item){
+        backStack.push(currentPage);
+        listLayout.removeAllViews();
+        listLayout.addView(item);
     }
 
     /**
@@ -126,15 +136,14 @@ public class Updater {
      * finds and downloads a document + politician image
      */
     public void getHTMLDocument(String url, String name){
-        listLayout.removeAllViews();
         ListItem item = new ListItem(context);
-        listLayout.addView(item);
         ImageDownloader imageDownloader = new ImageDownloader(item, name, ImageDownloader.INPUT_NAME);
         imageDownloader.execute();
         HtmlDownloader htmlDownloader = new HtmlDownloader(item,url);
         htmlDownloader.execute();
         threadList.add(imageDownloader);
         threadList.add(htmlDownloader);
+        update(item);
     }
 
     /**
@@ -250,7 +259,6 @@ public class Updater {
      */
     private void createProtocolItem(final Element doc, ListItem item){
         item.setTitle(doc.getElementsByTag("titel").get(0).text());
-        item.setText(doc.getElementsByTag("summary").get(0).text()+ "...");
         item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -262,18 +270,51 @@ public class Updater {
         });
     }
 
-    private void createBetItem(final Element doc, ListItem item){
-        item.setTitle(doc.getElementsByTag("notisrubrik").get(0).text());
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {//Todo look up on how to deal with this
-            item.setText(Html.fromHtml(doc.getElementsByTag("notis").get(0).text(),Html.FROM_HTML_OPTION_USE_CSS_COLORS).toString());
-        }
-        item.setOnClickListener(new View.OnClickListener() {
+    /**
+     * Create listItem for the "bet" category. Also inits two textView links to read the full document
+     * and to search for the relevant vote results.
+     */
+    private void createBetItem(final Element doc, final ListItem listItem){
+        listItem.setTitle(doc.getElementsByTag("notisrubrik").get(0).text());
+        listItem.setText(doc.getElementsByTag("systemdatum").get(0).text());
+        listItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent readPage = new Intent(context, ReadActivity.class);
-                readPage.putExtra("url",doc.getElementsByTag("dokument_url_html").text());
-                readPage.putExtra("bannerImage", currentPage.getBanner());
-                context.startActivity(readPage);
+                ListItem contentItem = new ListItem(context);
+                contentItem.setTitle(doc.getElementsByTag("notisrubrik").get(0).text());
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {//Todo look up on how to deal with this
+                    contentItem.setText(Html.fromHtml(doc.getElementsByTag("notis").get(0).text(),Html.FROM_HTML_OPTION_USE_CSS_COLORS).toString().trim());
+                }
+                //init read full document link
+                contentItem.getFooterTextView().setText("\nLäs fullständigt betänkande...");
+                contentItem.getFooterTextView().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent readPage = new Intent(context, ReadActivity.class);
+                        readPage.putExtra("url",doc.getElementsByTag("dokument_url_html").text());
+                        readPage.putExtra("bannerImage", currentPage.getBanner());
+                        context.startActivity(readPage);
+                    }
+                });
+                update(contentItem);
+                //init find votes link
+                TextView findVotesTextView = new TextView(context);
+                findVotesTextView.setText("Sök efter votering...");
+                findVotesTextView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //this page makes a search for example 2016/17:FiU20
+                        Page betVotePage = new Page("",R.drawable.votlogo, R.drawable.votbanner,"http://data.riksdagen.se/dokumentlista/?sok="+doc.getElementsByTag("rm").get(0).text()+":"+doc.getElementsByTag("beteckning").get(0).text()+"&doktyp=votering&sort=rel&sortorder=desc&rapport=&utformat=xml&p=");
+                        downloadAndUpdate(betVotePage);
+                    }
+                });
+                listLayout.addView(findVotesTextView);
+
+                View divider = new View(context);
+                divider.setBackgroundColor(Color.BLACK);
+                divider.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 2));
+                listLayout.addView(divider);
+
             }
         });
     }

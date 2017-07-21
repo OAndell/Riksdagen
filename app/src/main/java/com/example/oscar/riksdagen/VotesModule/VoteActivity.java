@@ -76,7 +76,6 @@ public class VoteActivity extends AppCompatActivity {
         //Download and setup bargraphs
         new VoteTableDownloader(myIntent.getStringExtra("pageURL"),graphs).execute();
 
-        //TODO fix image
         //init "go back" button
         Button backButton = (Button) findViewById(R.id.backButton);
         backButton.setOnClickListener(new View.OnClickListener() {
