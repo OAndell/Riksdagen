@@ -2,9 +2,16 @@ package com.example.oscar.riksdagen.MainModule.Menu;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Point;
+import android.graphics.drawable.ColorDrawable;
+import android.support.v4.widget.PopupWindowCompat;
+import android.view.Display;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.ScrollView;
 
 import com.example.oscar.riksdagen.MainModule.Pages.PageSuper;
 import com.example.oscar.riksdagen.MainModule.Updater;
@@ -30,7 +37,9 @@ public class MainMenu extends PopupWindow {
         menuLayout = new LinearLayout(context);
         menuLayout.setOrientation(LinearLayout.VERTICAL);
         menuLayout.setBackgroundColor(Color.WHITE);
-        this.setContentView(menuLayout);
+        ScrollView scrollView = new ScrollView(context);
+        scrollView.addView(menuLayout);
+        this.setContentView(scrollView);
         this.pages = parties;
         initMenuItems(context);
         this.setAnimationStyle(R.style.animationMenu);
@@ -50,5 +59,8 @@ public class MainMenu extends PopupWindow {
             });
             menuLayout.addView(menuItem);
         }
+
     }
+
+
 }

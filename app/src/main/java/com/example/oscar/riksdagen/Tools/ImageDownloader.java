@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 
-import com.example.oscar.riksdagen.MainModule.ListItem;
+import com.example.oscar.riksdagen.MainModule.ContentContainer;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -21,12 +21,12 @@ public class ImageDownloader extends AsyncTask<String,Void,Bitmap> {
     public static int INPUT_NAME = 0;
     public static int INPUT_URL = 1;
 
-    private ListItem listItem;
+    private ContentContainer contentContainer;
     private String query;
     private int currentSetting;
 
-    public ImageDownloader(ListItem listItem, String input, int setting){
-        this.listItem = listItem;
+    public ImageDownloader(ContentContainer contentContainer, String input, int setting){
+        this.contentContainer = contentContainer;
         currentSetting = setting;
         if(setting == INPUT_NAME){
             query = "http://data.riksdagen.se/personlista/?iid=&fnamn="+ input.split(" ")[0].trim() +"&enamn="+ input.split(" ")[1].trim() +"&utformat=xml&termlista=";
@@ -45,10 +45,10 @@ public class ImageDownloader extends AsyncTask<String,Void,Bitmap> {
     @Override
     protected void onPostExecute(Bitmap image){
         if(currentSetting == INPUT_NAME){
-            listItem.addPortrait(image);
+            contentContainer.addPortrait(image);
         }
         if(currentSetting == INPUT_URL){
-            listItem.addImage(image);
+            contentContainer.addImage(image);
         }
     }
 

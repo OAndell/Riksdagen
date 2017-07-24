@@ -2,9 +2,10 @@ package com.example.oscar.riksdagen.Tools;
 
 import android.os.AsyncTask;
 import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.text.Html;
 
-import com.example.oscar.riksdagen.MainModule.ListItem;
+import com.example.oscar.riksdagen.MainModule.ContentContainer;
 
 
 import org.jsoup.Jsoup;
@@ -12,16 +13,16 @@ import org.jsoup.nodes.Document;
 
 
 /**
+ * Downloads a text in html format and display the text in specified ContentContainer.
  * Created by Oscar on 2017-03-26.
  */
-
 public class HtmlDownloader extends AsyncTask<String, String,Document> {
 
-    private ListItem listItem;
+    private ContentContainer contentContainer;
     private String url;
 
-    public HtmlDownloader(ListItem listitem, String url){
-        this.listItem = listitem;
+    public HtmlDownloader(ContentContainer listitem, String url){
+        this.contentContainer = listitem;
         this.url = url;
     }
 
@@ -30,16 +31,16 @@ public class HtmlDownloader extends AsyncTask<String, String,Document> {
         return download();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onPostExecute(Document result){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            listItem.setTitle(listItem.getTitle() + Html.fromHtml(result.getElementsByTag("h2").html() +"<br>"+ result.getElementsByClass("av").html() +"<br>"+ result.getElementsByClass("till").html(),Html.FROM_HTML_MODE_COMPACT).toString());
-            result.getElementsByTag("h2").remove();
-            result.getElementsByClass("av").remove();
-            result.getElementsByClass("till").remove();
-            result.getElementsByTag("style").remove();
-            listItem.setText(Html.fromHtml(result.html(),Html.FROM_HTML_OPTION_USE_CSS_COLORS ).toString().trim());
-        }
+        contentContainer.setTitle(contentContainer.getTitle() + Html.fromHtml(result.getElementsByTag("h2").html() +"<br>"+ result.getElementsByClass("av").html() +"<br>"+ result.getElementsByClass("till").html(),Html.FROM_HTML_MODE_COMPACT).toString());
+        result.getElementsByTag("h2").remove();
+        result.getElementsByClass("av").remove();
+        result.getElementsByClass("till").remove();
+        result.getElementsByTag("style").remove();
+        contentContainer.setText(Html.fromHtml(result.html(),Html.FROM_HTML_OPTION_USE_CSS_COLORS ).toString().trim());
+
     }
 
     private Document download() {

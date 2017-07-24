@@ -10,10 +10,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.oscar.riksdagen.R;
+
 /**
  * Created by Oscar on 2017-03-24.
  */
-public class ListItem extends LinearLayout{
+public class ContentContainer extends LinearLayout{
 
     private TextView titleTextView;
     private TextView contentTextView;
@@ -22,7 +24,7 @@ public class ListItem extends LinearLayout{
     private ImageView bottomImageView;
     private View divider;
 
-    public ListItem(Context context) {
+    public ContentContainer(Context context) {
         super(context);
         this.setOrientation(LinearLayout.VERTICAL);
 
@@ -32,7 +34,7 @@ public class ListItem extends LinearLayout{
         imageAndTitleLayout.setOrientation(HORIZONTAL);
         this.addView(imageAndTitleLayout);
 
-        //Title
+        //Title text
         titleTextView = new TextView(context);
         titleTextView.setTextSize(15);
         titleTextView.setTextColor(Color.BLACK);
@@ -52,7 +54,6 @@ public class ListItem extends LinearLayout{
         bottomImageView = new ImageView(context);
         bottomImageView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         this.addView(bottomImageView);
-
 
         footerTextView = new TextView(context);
         footerTextView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
@@ -80,6 +81,10 @@ public class ListItem extends LinearLayout{
         if(img!=null){
             bottomImageView.setImageBitmap(img);
         }
+    }
+
+    public void addImage(int imgID){
+        bottomImageView.setImageResource(imgID);
     }
 
     public void setTitle(String title){

@@ -2,6 +2,7 @@ package com.example.oscar.riksdagen.VotesModule;
 
 import android.os.AsyncTask;
 import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.text.Html;
 import android.widget.TextView;
 
@@ -34,11 +35,10 @@ public class VoteSummaryDownloader extends AsyncTask<String,String,String> {
             return search();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onPostExecute(String results){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            textView.setText(Html.fromHtml(results,Html.FROM_HTML_OPTION_USE_CSS_COLORS).toString());
-        }
+        textView.setText(Html.fromHtml(results,Html.FROM_HTML_OPTION_USE_CSS_COLORS).toString());
     }
 
     private String search(){

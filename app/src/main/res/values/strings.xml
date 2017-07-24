@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">Riksdagen</string>
+    <string name="app_name">Koll på Riksdagen</string>
+    <string name="about_title">Om Appen</string>
+    <string name="about_text">Koll på Riksdagen är en Android applikation för att visa och läsa nya dokument från Sveriges riksdag.
+        \n\nAlla dokumet och bilder är hämtade från riksdagens hemsida: www.riksdagen.se, samt riksdagens egna API: data.riksdagen.se
+        \n\nKällkod: github.com/OAndell/Riksdagen </string>
 </resources>

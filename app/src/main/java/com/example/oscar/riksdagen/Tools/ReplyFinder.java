@@ -1,14 +1,14 @@
 package com.example.oscar.riksdagen.Tools;
 
 import android.os.AsyncTask;
-import com.example.oscar.riksdagen.MainModule.ListItem;
+import com.example.oscar.riksdagen.MainModule.ContentContainer;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 /**
  * Created by Oscar on 2017-06-03.
  * Finds the reply to written question be searching for the title, using doctype=frs as a filter
- * Input : ListItem to display reply
+ * Input : ContentContainer to display reply
  */
 
 public class ReplyFinder extends AsyncTask<String,String,String> {
@@ -19,12 +19,12 @@ public class ReplyFinder extends AsyncTask<String,String,String> {
 
     private String searchTerm;
     private String id;
-    private ListItem listItem;
+    private ContentContainer contentContainer;
 
-    public ReplyFinder(String title, String id,  ListItem listItem){
+    public ReplyFinder(String title, String id, ContentContainer contentContainer){
         this.searchTerm = title;
         this.id = id;
-        this.listItem = listItem;
+        this.contentContainer = contentContainer;
     }
 
     @Override
@@ -35,10 +35,10 @@ public class ReplyFinder extends AsyncTask<String,String,String> {
     @Override
     protected void onPostExecute(String results){
         if(results != null){
-            new HtmlDownloader(listItem,results).execute();
+            new HtmlDownloader(contentContainer,results).execute();
         }
         else{
-            listItem.setText("(ej besvarad)");
+            contentContainer.setText("(ej besvarad)");
         }
     }
 

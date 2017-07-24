@@ -1,13 +1,20 @@
 package com.example.oscar.riksdagen.MainModule;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.support.v4.widget.PopupWindowCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.ScrollView;
 
 import com.example.oscar.riksdagen.MainModule.Menu.MainMenu;
+import com.example.oscar.riksdagen.MainModule.Pages.AboutPage;
 import com.example.oscar.riksdagen.MainModule.Pages.Page;
 import com.example.oscar.riksdagen.MainModule.Pages.PageSuper;
 import com.example.oscar.riksdagen.MainModule.Pages.Party;
@@ -34,14 +41,16 @@ public class MainActivity extends AppCompatActivity {
         updater = new Updater(this, itemLayout, bannerView, scrollView);
         updater.downloadAndUpdate(pages.get(0));
 
-        //Init main Menu
+
+        //init main Menu
         mainMenu = new MainMenu(this, pages, updater);
+        PopupWindowCompat.setOverlapAnchor(mainMenu, false);
         final Button menuButton = (Button) findViewById(R.id.menuButton);
         menuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(!mainMenu.isShowing()){
-                    mainMenu.showAsDropDown(menuButton);
+                    PopupWindowCompat.showAsDropDown(mainMenu,menuButton,0,0, Gravity.NO_GRAVITY);
                 }
                 else{
                     mainMenu.dismiss();
@@ -63,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         pages.add(new Page("Riksdagsbeslut", R.drawable.betlogo, R.drawable.betbanner, "https://data.riksdagen.se/dokumentlista2/?avd=dokument&doktyp=bet&beslutad=1&sort=beslutsdag&sortorder=desc&utformat=xml&p="));
         pages.add(new Page("Voteringar",R.drawable.votlogo ,R.drawable.votbanner,"http://data.riksdagen.se/dokumentlista/?sok=&doktyp=votering&rm=&sort=dat&sortorder=desc&rapport=&utformat=xml&p="));
         pages.add(new Page("Kammarprotokoll", R.drawable.protlogo, R.drawable.protbanner, "http://data.riksdagen.se/dokumentlista/?sok=&doktyp=prot&sort=datum&sortorder=desc&utformat=xml&p="));
+        pages.add(new AboutPage("Om Appen", R.drawable.abouticon ,R.drawable.aboutbanner,this));
     }
 
     @Override

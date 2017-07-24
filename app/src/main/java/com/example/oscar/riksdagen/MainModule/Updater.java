@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.example.oscar.riksdagen.MainModule.Pages.AboutPage;
 import com.example.oscar.riksdagen.MainModule.Pages.Page;
 import com.example.oscar.riksdagen.MainModule.Pages.PageSuper;
 import com.example.oscar.riksdagen.MainModule.Pages.Party;
@@ -68,9 +70,14 @@ public class Updater {
         if(page.getClass() == Party.class){
             new APIParser(this,(Party)page).execute();
         }
-        else{
+        else if (page.getClass() == Page.class){
             new APIParser(this,(Page)page).execute();
         }
+        else if (page.getClass() == AboutPage.class){
+            AboutPage aboutPage = (AboutPage) page;
+            update(aboutPage.getContentContainer());
+        }
+
     }
 
     /**
@@ -83,16 +90,16 @@ public class Updater {
         for (int i = 0; i < allDocs.size(); i++) {
             createItem(allDocs.get(i));
         }
-        TextView sourceTxt = new TextView(context);
-        sourceTxt.setText("Källa: www.riksdagen.se");
-        sourceTxt.setTextSize(9);
-        listLayout.addView(sourceTxt);
         if(allDocs.size() > 19){
             listLayout.addView(new PageNavigator(context, this));
         }
+        listLayout.addView(createSourceText());
     }
 
-    private void update(ListItem item){
+    /**
+     * Update page with only a single ContentContainer
+     */
+    private void update(ContentContainer item){
         backStack.push(currentPage);
         listLayout.removeAllViews();
         listLayout.addView(item);
@@ -107,10 +114,10 @@ public class Updater {
     }
 
     /**
-     * Create a listItem customized according to the current page.
+     * Create a container customized according to the current page.
      */
     private void createItem(final Element doc){
-        ListItem item = new ListItem(context);
+        ContentContainer item = new ContentContainer(context);
         if(doc.getElementsByTag("debattnamn").get(0).text().length() > 0){ //Check to see if you should look for summaries instead of documents
             if(currentPage.getClass() == Party.class) {
                 createPartyItem(doc, item);
@@ -136,14 +143,14 @@ public class Updater {
      * finds and downloads a document + politician image
      */
     public void getHTMLDocument(String url, String name){
-        ListItem item = new ListItem(context);
-        ImageDownloader imageDownloader = new ImageDownloader(item, name, ImageDownloader.INPUT_NAME);
+        ContentContainer container = new ContentContainer(context);
+        ImageDownloader imageDownloader = new ImageDownloader(container, name, ImageDownloader.INPUT_NAME);
         imageDownloader.execute();
-        HtmlDownloader htmlDownloader = new HtmlDownloader(item,url);
+        HtmlDownloader htmlDownloader = new HtmlDownloader(container,url);
         htmlDownloader.execute();
         threadList.add(imageDownloader);
         threadList.add(htmlDownloader);
-        update(item);
+        update(container);
     }
 
     /**
@@ -152,13 +159,14 @@ public class Updater {
      * Calls a ReplyFinder task.
      */
     private void getReplyDoc(String title, String id){
-        ListItem reply = new ListItem(context);
-        listLayout.addView(reply);
+        ContentContainer replyContainer = new ContentContainer(context);
+        listLayout.addView(replyContainer);
         title = title.replace(" ", "+");
-        reply.setTitle("Svar på skriftlig fråga:");
-        ReplyFinder replyFinder = new ReplyFinder(title,id,reply);
+        replyContainer.setTitle("Svar på skriftlig fråga:");
+        ReplyFinder replyFinder = new ReplyFinder(title,id,replyContainer);
         replyFinder.execute();
         threadList.add(replyFinder);
+        listLayout.addView(createSourceText());
     }
 
     /**
@@ -199,12 +207,11 @@ public class Updater {
     /**
      * Create non interactive items for startpage.
      */
-    private void createNonClickableItem(Element doc, ListItem item){
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void createNonClickableItem(Element doc, ContentContainer item){
         item.setTitle(doc.getElementsByTag("titel").get(0).text());
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) { //TODO look up how to deal with this
-            String summary = Html.fromHtml(doc.getElementsByTag("summary").get(0).text(),Html.FROM_HTML_OPTION_USE_CSS_COLORS).toString();
-            item.setText(TextCleaner.cleanupText(summary));
-        }
+        String summary = Html.fromHtml(doc.getElementsByTag("summary").get(0).text(),Html.FROM_HTML_OPTION_USE_CSS_COLORS).toString();
+        item.setText(TextCleaner.cleanupText(summary));
         item.setText(item.getText() + "\n" + doc.getElementsByTag("systemdatum").get(0).text());
         ImageDownloader imageDownloader = new ImageDownloader(item, "http://www.riksdagen.se" + doc.getElementsByTag("img_url").get(0).text(), ImageDownloader.INPUT_URL);
         imageDownloader.execute();
@@ -214,7 +221,7 @@ public class Updater {
     /**
      * Add list items for the party specific pages
      */
-    private void createPartyItem(final Element doc, ListItem item){
+    private void createPartyItem(final Element doc, ContentContainer item){
         item.setTitle(doc.getElementsByTag("titel").get(0).text() + " (" + doc.getElementsByTag("debattnamn").get(0).text() +")" );
         item.setText(doc.getElementsByTag("undertitel").get(0).text());
         item.setOnClickListener(new View.OnClickListener() {
@@ -238,9 +245,9 @@ public class Updater {
     }
 
     /**
-     *Create specific listItem for the vote page
+     *Create specific contentContainer for the vote page
      */
-    private void createVoteItem(final Element doc, ListItem item){
+    private void createVoteItem(final Element doc, ContentContainer item){
         item.setTitle(doc.getElementsByTag("titel").get(0).text());
         item.setText(doc.getElementsByTag("undertitel").get(0).text());
         item.setOnClickListener(new View.OnClickListener() {
@@ -255,9 +262,9 @@ public class Updater {
     }
 
     /**
-     *Create specific listItem for the protocol page
+     *Create specific container for the protocol page
      */
-    private void createProtocolItem(final Element doc, ListItem item){
+    private void createProtocolItem(final Element doc, ContentContainer item){
         item.setTitle(doc.getElementsByTag("titel").get(0).text());
         item.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -271,20 +278,19 @@ public class Updater {
     }
 
     /**
-     * Create listItem for the "bet" category. Also inits two textView links to read the full document
+     * Create contentContainer for the "bet" category. Also inits two textView links to read the full document
      * and to search for the relevant vote results.
      */
-    private void createBetItem(final Element doc, final ListItem listItem){
-        listItem.setTitle(doc.getElementsByTag("notisrubrik").get(0).text());
-        listItem.setText(doc.getElementsByTag("systemdatum").get(0).text());
-        listItem.setOnClickListener(new View.OnClickListener() {
-            @Override
+    private void createBetItem(final Element doc, final ContentContainer contentContainer){
+        contentContainer.setTitle(doc.getElementsByTag("notisrubrik").get(0).text());
+        contentContainer.setText(doc.getElementsByTag("systemdatum").get(0).text());
+        contentContainer.setOnClickListener(new View.OnClickListener() {
+
+            @RequiresApi(api = Build.VERSION_CODES.N)
             public void onClick(View view) {
-                ListItem contentItem = new ListItem(context);
+                ContentContainer contentItem = new ContentContainer(context);
                 contentItem.setTitle(doc.getElementsByTag("notisrubrik").get(0).text());
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {//Todo look up on how to deal with this
-                    contentItem.setText(Html.fromHtml(doc.getElementsByTag("notis").get(0).text(),Html.FROM_HTML_OPTION_USE_CSS_COLORS).toString().trim());
-                }
+                contentItem.setText(Html.fromHtml(doc.getElementsByTag("notis").get(0).text(),Html.FROM_HTML_OPTION_USE_CSS_COLORS).toString().trim());
                 //init read full document link
                 contentItem.getFooterTextView().setText("\nLäs fullständigt betänkande...");
                 contentItem.getFooterTextView().setOnClickListener(new View.OnClickListener() {
@@ -309,13 +315,18 @@ public class Updater {
                     }
                 });
                 listLayout.addView(findVotesTextView);
-
                 View divider = new View(context);
                 divider.setBackgroundColor(Color.BLACK);
                 divider.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 2));
                 listLayout.addView(divider);
-
             }
         });
+    }
+
+    private TextView createSourceText(){
+        TextView sourceTxt = new TextView(context);
+        sourceTxt.setText("Källa: www.riksdagen.se");
+        sourceTxt.setTextSize(9);
+        return  sourceTxt;
     }
 }
