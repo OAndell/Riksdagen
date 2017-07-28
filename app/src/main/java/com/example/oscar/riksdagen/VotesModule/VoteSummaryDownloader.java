@@ -6,8 +6,6 @@ import android.support.annotation.RequiresApi;
 import android.text.Html;
 import android.widget.TextView;
 
-import com.example.oscar.riksdagen.Tools.TextCleaner;
-
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

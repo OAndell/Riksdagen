@@ -20,11 +20,10 @@ import com.example.oscar.riksdagen.MainModule.Pages.PageSuper;
 import com.example.oscar.riksdagen.MainModule.Pages.Party;
 import com.example.oscar.riksdagen.R;
 import com.example.oscar.riksdagen.ReadModule.ReadActivity;
-import com.example.oscar.riksdagen.Tools.APIParser;
-import com.example.oscar.riksdagen.Tools.HtmlDownloader;
-import com.example.oscar.riksdagen.Tools.ImageDownloader;
-import com.example.oscar.riksdagen.Tools.ReplyFinder;
-import com.example.oscar.riksdagen.Tools.TextCleaner;
+import com.example.oscar.riksdagen.AsyncTasks.APIParser;
+import com.example.oscar.riksdagen.AsyncTasks.HtmlDownloader;
+import com.example.oscar.riksdagen.AsyncTasks.ImageDownloader;
+import com.example.oscar.riksdagen.AsyncTasks.ReplyFinder;
 import com.example.oscar.riksdagen.VotesModule.VoteActivity;
 
 import org.jsoup.Jsoup;
@@ -77,7 +76,6 @@ public class Updater {
             AboutPage aboutPage = (AboutPage) page;
             update(aboutPage.getContentContainer());
         }
-
     }
 
     /**
@@ -211,7 +209,7 @@ public class Updater {
     private void createNonClickableItem(Element doc, ContentContainer item){
         item.setTitle(doc.getElementsByTag("titel").get(0).text());
         String summary = Html.fromHtml(doc.getElementsByTag("summary").get(0).text(),Html.FROM_HTML_OPTION_USE_CSS_COLORS).toString();
-        item.setText(TextCleaner.cleanupText(summary));
+        item.setText(summary.replaceAll("<p>","").replaceAll("</p>","").replaceAll("&nbsp;"," "));
         item.setText(item.getText() + "\n" + doc.getElementsByTag("systemdatum").get(0).text());
         ImageDownloader imageDownloader = new ImageDownloader(item, "http://www.riksdagen.se" + doc.getElementsByTag("img_url").get(0).text(), ImageDownloader.INPUT_URL);
         imageDownloader.execute();

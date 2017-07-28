@@ -1,4 +1,4 @@
-package com.example.oscar.riksdagen.Tools;
+package com.example.oscar.riksdagen.AsyncTasks;
 
 import android.os.AsyncTask;
 import com.example.oscar.riksdagen.MainModule.ContentContainer;

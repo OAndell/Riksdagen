@@ -1,10 +1,14 @@
 package com.example.oscar.riksdagen.MainModule.Menu;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.view.DragEvent;
 import android.view.Gravity;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.widget.ImageView;
@@ -12,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.oscar.riksdagen.MainModule.Pages.PageSuper;
+import com.example.oscar.riksdagen.R;
 
 import org.w3c.dom.Text;
 
@@ -30,7 +35,7 @@ public class MenuItem extends LinearLayout{
     private TextView textView;
     private ImageView imageView;
 
-    public MenuItem(Context context, PageSuper page) {
+    public MenuItem(final Context context, PageSuper page) {
         super(context);
         this.setOrientation(HORIZONTAL);
         this.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, HEIGHT));

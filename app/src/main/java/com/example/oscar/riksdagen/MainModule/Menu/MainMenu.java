@@ -1,5 +1,6 @@
 package com.example.oscar.riksdagen.MainModule.Menu;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -47,7 +48,7 @@ public class MainMenu extends PopupWindow {
 
     private void initMenuItems(Context context){
         for (int i = 0; i < pages.size(); i++) {
-            MenuItem menuItem = new MenuItem(context, pages.get(i));
+            final MenuItem menuItem = new MenuItem(context, pages.get(i));
             final int finalI = i;
             menuItem.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -55,6 +56,7 @@ public class MainMenu extends PopupWindow {
                     pages.get(finalI).resetPageNumber(); //start at first page
                     updater.downloadAndUpdate(pages.get(finalI));
                     thisPopupMenu.dismiss();
+
                 }
             });
             menuLayout.addView(menuItem);
