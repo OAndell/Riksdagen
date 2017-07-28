@@ -10,16 +10,20 @@ My goal in creating this app was firstly to practice Java and Android developmen
  * Sort by party.
  * Read new questions, motions and other documents put forward by the parties.
  
+## Screenshots: 
+Menu:
+
+<img src="https://raw.githubusercontent.com/OAndell/Riksdagen/master/screenshots/menuExample.png" alt="Smiley face" width="300">
 
 Questions and answers asked by the politicians: 
 
-![alt tag](https://raw.githubusercontent.com/OAndell/Riksdagen/master/screenshots/questionExample1.png)
+<img src="https://raw.githubusercontent.com/OAndell/Riksdagen/master/screenshots/questionExample1.png" alt="Smiley face" width="300">
 
 See the results of votes:
 
-![alt tag](https://raw.githubusercontent.com/OAndell/Riksdagen/master/screenshots/voteExample1.jpg)
+<img src="https://raw.githubusercontent.com/OAndell/Riksdagen/master/screenshots/voteExample1.jpg" alt="Smiley face" width="300">
 
 Votes by party:
 
-![alt tag](https://raw.githubusercontent.com/OAndell/Riksdagen/master/screenshots/voteExample2.png)
+<img src="https://raw.githubusercontent.com/OAndell/Riksdagen/master/screenshots/voteExample2.png" alt="Smiley face" width="300">
 
