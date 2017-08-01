@@ -11,7 +11,7 @@ My goal in creating this app was firstly to practice Java and Android developmen
  * Sort by party.
  * Read new questions, motions and other documents put forward by the parties.
  
-[## Download for Android](https://github.com/OAndell/Riksdagen/raw/master/download/app-debug.apk)
+[Download for Android](https://github.com/OAndell/Riksdagen/raw/master/download/app-debug.apk)
  
 ## Screenshots: 
 Menu:
