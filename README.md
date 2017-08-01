@@ -5,10 +5,13 @@ This android application uses the API from https://data.riksdagen.se/ to get lat
 
 My goal in creating this app was firstly to practice Java and Android development but also to create an accesible way to view the work that goes on in the Swedish parlement. An easy way to see what topics and questions are discussed by our politicians and how they vote on these issues. 
 
-## Features: 
+## Features:
+ * View new decisions made by the parlament.
  * View the results of votes.
  * Sort by party.
  * Read new questions, motions and other documents put forward by the parties.
+ 
+[## Download for Android](https://github.com/OAndell/Riksdagen/raw/master/download/app-debug.apk)
  
 ## Screenshots: 
 Menu:
