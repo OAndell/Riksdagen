@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -26,8 +29,11 @@ public class ReadActivity extends AppCompatActivity {
         Intent myIntent = getIntent();
         String url = myIntent.getStringExtra("url");
 
-        ImageView bannerImage = (ImageView) findViewById(R.id.bannerImage);
-        bannerImage.setImageResource(myIntent.getIntExtra("bannerImage",R.drawable.topbanner));
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(myIntent.getStringExtra("docType"));
 
         WebView webView = (WebView) findViewById(R.id.webView);
         webView.getSettings().setBuiltInZoomControls(true);
@@ -36,17 +42,24 @@ public class ReadActivity extends AppCompatActivity {
         }
         webView.loadUrl(url);
 
-        //init "go back" button
-        Button backButton = (Button) findViewById(R.id.backButton);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-
-
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem dummy = menu.findItem(R.id.dummy_menu);
+        dummy.setIcon(getResources().getDrawable(getIntent().getIntExtra("bannerImage", R.drawable.topbanner)));
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == android.R.id.home) finish();
+        return true;
+    }
 }

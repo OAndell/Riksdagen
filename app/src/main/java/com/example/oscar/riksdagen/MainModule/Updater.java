@@ -48,7 +48,7 @@ public class Updater {
     private PageSuper currentPage;
     private ScrollView scrollView;
 
-    public Updater(Context context, LinearLayout listLayout, ImageView banner , ScrollView scrollView){
+    public Updater(Context context, LinearLayout listLayout, ScrollView scrollView){
         this.listLayout = listLayout;
         this.context = context;
         this.banner = banner;
@@ -60,11 +60,12 @@ public class Updater {
      */
     public void downloadAndUpdate(PageSuper page){
         closeAllThreads();
+        ((MainActivity) context).getSupportActionBar().setTitle(page.getName());
+        ((MainActivity) context).setMenuResource(page.getBanner());
         currentPage = page;
         listLayout.removeAllViews();
         scrollView.scrollTo(0,0);
         backStack.push(page);
-        updateBanner(page.getBanner());
         documentView = false;
         if(page.getClass() == Party.class){
             new APIParser(this,(Party)page).execute();
@@ -103,13 +104,6 @@ public class Updater {
         listLayout.addView(item);
     }
 
-    /**
-     * Changes the top banner image.
-     * @param img image resource id
-     */
-    public void updateBanner(int img){
-        banner.setImageResource(img);
-    }
 
     /**
      * Create a container customized according to the current page.
@@ -171,21 +165,23 @@ public class Updater {
      * Loads the last visited page. If stack is empty the app closes.
      */
     public void handleBackButton(){
-        if(backStack.peek() == null){
+        if(backStack.isEmpty()){
             System.exit(0);
         }
         else if(documentView){
             downloadAndUpdate(backStack.pop());
+            ((MainActivity) context).setShowUpButton(false);
+            ((MainActivity) context).getSupportActionBar().setTitle(currentPage.getName());
             documentView = false;
         }
         else{
             backStack.pop();
-            if(backStack.peek() == null) {
+            if(backStack.empty()) {
                 System.exit(0);
-
             }else {
                 downloadAndUpdate(backStack.pop());
             }
+
         }
     }
 
@@ -229,6 +225,7 @@ public class Updater {
                     Intent readPage = new Intent(context, ReadActivity.class);
                     readPage.putExtra("url",doc.getElementsByTag("dokument_url_html").text());
                     readPage.putExtra("bannerImage", currentPage.getBanner());
+                    readPage.putExtra("docType", doc.getElementsByTag("debattnamn").get(0).text());
                     context.startActivity(readPage);
                 }
                 else if(doc.getElementsByTag("namn").hasText()){
@@ -236,6 +233,8 @@ public class Updater {
                     if(doc.getElementsByTag("doktyp").text().equals("fr")){//Questions
                         getReplyDoc(doc.getElementsByTag("titel").get(0).text(),doc.getElementsByTag("beteckning").get(0).text());
                     }
+                    ((MainActivity) context).setShowUpButton(true );
+                    ((MainActivity) context).getSupportActionBar().setTitle(doc.getElementsByTag("debattnamn").get(0).text());
                 }
                 documentView = true;
             }
@@ -270,6 +269,7 @@ public class Updater {
                 Intent readPage = new Intent(context, ReadActivity.class);
                 readPage.putExtra("url",doc.getElementsByTag("dokument_url_html").text());
                 readPage.putExtra("bannerImage", currentPage.getBanner());
+                readPage.putExtra("docType","Protokoll");
                 context.startActivity(readPage);
             }
         });
@@ -296,7 +296,8 @@ public class Updater {
                     public void onClick(View view) {
                         Intent readPage = new Intent(context, ReadActivity.class);
                         readPage.putExtra("url",doc.getElementsByTag("dokument_url_html").text());
-                        readPage.putExtra("bannerImage", currentPage.getBanner());
+                        readPage.putExtra("docType","Betänkande");
+
                         context.startActivity(readPage);
                     }
                 });
@@ -317,6 +318,9 @@ public class Updater {
                 divider.setBackgroundColor(Color.BLACK);
                 divider.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 2));
                 listLayout.addView(divider);
+                ((MainActivity) context).setShowUpButton(true );
+                ((MainActivity) context).getSupportActionBar().setTitle("Beslut");
+                documentView = true;
             }
         });
     }

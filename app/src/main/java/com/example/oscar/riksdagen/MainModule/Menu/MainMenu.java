@@ -39,11 +39,14 @@ public class MainMenu extends PopupWindow {
         menuLayout.setOrientation(LinearLayout.VERTICAL);
         menuLayout.setBackgroundColor(Color.WHITE);
         ScrollView scrollView = new ScrollView(context);
-        scrollView.addView(menuLayout);
         this.setContentView(scrollView);
         this.pages = parties;
         initMenuItems(context);
         this.setAnimationStyle(R.style.animationMenu);
+    }
+
+    public LinearLayout getMenuLayout() {
+        return menuLayout;
     }
 
     private void initMenuItems(Context context){
