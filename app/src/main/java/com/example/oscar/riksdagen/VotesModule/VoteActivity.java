@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -42,6 +45,11 @@ public class VoteActivity extends AppCompatActivity {
         TextView summaryTextView = (TextView) findViewById(R.id.infoView);
         summaryTextView.setTextColor(Color.BLACK);
         downloadSummaryText(pageDesc, summaryTextView);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Resultat");
 
         GraphView graphS = (GraphView) findViewById(R.id.votegraphS);
         graphs.add(graphS);
@@ -77,13 +85,6 @@ public class VoteActivity extends AppCompatActivity {
         new VoteTableDownloader(myIntent.getStringExtra("pageURL"),graphs).execute();
 
         //init "go back" button
-        Button backButton = (Button) findViewById(R.id.backButton);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
 
         //init read more button
         final TextView readMoreButton = (TextView) findViewById(R.id.readMoreTextView);
@@ -98,6 +99,9 @@ public class VoteActivity extends AppCompatActivity {
         });
 
     }
+
+
+
 
     public static void setupGraph(final GraphView graph, int data1, int data2, int data3, int data4, boolean hideLabels){
         BarGraphSeries<DataPoint> series = new BarGraphSeries<>(new DataPoint[] {
@@ -157,6 +161,28 @@ public class VoteActivity extends AppCompatActivity {
             graph.setTitleTextSize(50);
             graph.setTitle("Resultat");
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem dummy = menu.findItem(R.id.dummy_menu);
+        dummy.setIcon(getResources().getDrawable(R.drawable.votbanner));
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(item.getItemId() == android.R.id.home){
+            finish();
+        }
+        return true;
     }
 
     private static void downloadSummaryText(String pageDesc, TextView summaryTextView){
