@@ -33,10 +33,10 @@ public class PageNavigator extends LinearLayout {
         ImageView prevArrow = new ImageView(context);
         prevArrow.setLayoutParams(arrowSize);
         if(updater.getCurrentPage().getPageNumber() == 1){
-            prevArrow.setImageResource(R.drawable.arrowleftgray);
+            prevArrow.setImageResource(R.drawable.ic_navigate_before_gray_24dp);
         }
         else {
-            prevArrow.setImageResource(R.drawable.arrowleft);
+            prevArrow.setImageResource(R.drawable.ic_navigate_before_black_24dp);
         }
         prevArrow.setPadding(20,0,0,0);
 
@@ -53,7 +53,7 @@ public class PageNavigator extends LinearLayout {
 
         ImageView nextArrow = new ImageView(context);
         nextArrow.setLayoutParams(arrowSize);
-        nextArrow.setImageResource(R.drawable.arrowright);
+        nextArrow.setImageResource(R.drawable.ic_navigate_next_black_24dp);
         nextArrow.setPadding(20,0,0,0);
         nextArrow .setOnClickListener(new OnClickListener() {
             @Override

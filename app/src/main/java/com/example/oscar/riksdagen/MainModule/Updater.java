@@ -60,8 +60,10 @@ public class Updater {
      */
     public void downloadAndUpdate(PageSuper page){
         closeAllThreads();
+
         ((MainActivity) context).getSupportActionBar().setTitle(page.getName());
         ((MainActivity) context).setMenuResource(page.getBanner());
+        ((MainActivity) context).setLoading(true);
         currentPage = page;
         listLayout.removeAllViews();
         scrollView.scrollTo(0,0);
@@ -76,6 +78,7 @@ public class Updater {
         else if (page.getClass() == AboutPage.class){
             AboutPage aboutPage = (AboutPage) page;
             update(aboutPage.getContentContainer());
+            ((MainActivity) context).setLoading(false);
         }
     }
 
@@ -93,6 +96,7 @@ public class Updater {
             listLayout.addView(new PageNavigator(context, this));
         }
         listLayout.addView(createSourceText());
+        ((MainActivity) context).setLoading(false);
     }
 
     /**
@@ -165,6 +169,12 @@ public class Updater {
      * Loads the last visited page. If stack is empty the app closes.
      */
     public void handleBackButton(){
+
+        for (PageSuper page: backStack
+             ) {
+            System.out.println(page.getName());
+
+        }
         if(backStack.isEmpty()){
             System.exit(0);
         }

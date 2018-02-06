@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 
 import com.example.oscar.riksdagen.MainModule.Menu.DrawerAdapter;
@@ -45,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean mToolBarNavigationListenerIsRegistered = false;
     boolean showMenu = false;
     private int menuResource = R.drawable.topbanner;
+    private ProgressBar spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         initPages();
         LinearLayout itemLayout = (LinearLayout) findViewById(R.id.itemLayout);
         ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
+        spinner = (ProgressBar) findViewById(R.id.spinner);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -109,6 +112,12 @@ public class MainActivity extends AppCompatActivity {
     public void setMenuResource(int menuResource) {
         this.menuResource = menuResource;
         invalidateOptionsMenu();
+    }
+
+
+    public void setLoading(boolean loading){
+        if(loading) spinner.setVisibility(View.VISIBLE);
+        else spinner.setVisibility(View.GONE);
     }
 
     @Override
