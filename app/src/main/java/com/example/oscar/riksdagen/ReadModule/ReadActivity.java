@@ -22,6 +22,8 @@ import com.example.oscar.riksdagen.R;
 
 public class ReadActivity extends AppCompatActivity {
 
+    ImageView toolbarIcon;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +32,7 @@ public class ReadActivity extends AppCompatActivity {
         String url = myIntent.getStringExtra("url");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbarIcon = (ImageView) findViewById(R.id.toolbar_icon);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -41,21 +44,14 @@ public class ReadActivity extends AppCompatActivity {
             webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING);
         }
         webView.loadUrl(url);
+        setToolbarIcon();
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return true;
+    public void setToolbarIcon() {
+        this.toolbarIcon.setImageDrawable(getResources().getDrawable(getIntent().getIntExtra("bannerImage", R.drawable.topbanner)));
     }
 
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        MenuItem dummy = menu.findItem(R.id.dummy_menu);
-        dummy.setIcon(getResources().getDrawable(getIntent().getIntExtra("bannerImage", R.drawable.topbanner)));
-        return super.onPrepareOptionsMenu(menu);
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

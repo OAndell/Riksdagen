@@ -62,7 +62,7 @@ public class Updater {
         closeAllThreads();
 
         ((MainActivity) context).getSupportActionBar().setTitle(page.getName());
-        ((MainActivity) context).setMenuResource(page.getBanner());
+        ((MainActivity) context).setToolbarIcon(page.getBanner());
         ((MainActivity) context).setLoading(true);
         currentPage = page;
         listLayout.removeAllViews();

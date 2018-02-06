@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.oscar.riksdagen.R;
@@ -34,6 +35,7 @@ public class VoteActivity extends AppCompatActivity {
     private ArrayList<GraphView> graphs = new ArrayList<>();
     private static String fullTextUrl;
     private Context context;
+    private ImageView toolbarIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,8 @@ public class VoteActivity extends AppCompatActivity {
         summaryTextView.setTextColor(Color.BLACK);
         downloadSummaryText(pageDesc, summaryTextView);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbarIcon = (ImageView) findViewById(R.id.toolbar_icon);
+        toolbarIcon.setImageDrawable(getResources().getDrawable(R.drawable.votbanner));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -99,8 +103,6 @@ public class VoteActivity extends AppCompatActivity {
         });
 
     }
-
-
 
 
     public static void setupGraph(final GraphView graph, int data1, int data2, int data3, int data4, boolean hideLabels){
@@ -163,18 +165,6 @@ public class VoteActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        MenuItem dummy = menu.findItem(R.id.dummy_menu);
-        dummy.setIcon(getResources().getDrawable(R.drawable.votbanner));
-        return super.onPrepareOptionsMenu(menu);
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
