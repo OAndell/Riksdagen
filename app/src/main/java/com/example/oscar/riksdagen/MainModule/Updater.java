@@ -93,7 +93,7 @@ public class Updater {
             createItem(allDocs.get(i));
         }
         if(allDocs.size() > 19){
-            listLayout.addView(new PageNavigator(context, this));
+            listLayout.addView(ComponentBuilder.getPageNavigator(context, this));
         }
         listLayout.addView(createSourceText());
         ((MainActivity) context).setLoading(false);
