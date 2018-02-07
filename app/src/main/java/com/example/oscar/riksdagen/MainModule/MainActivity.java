@@ -8,7 +8,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,9 +18,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.example.oscar.riksdagen.MainModule.Menu.DrawerAdapter;
 import com.example.oscar.riksdagen.MainModule.Menu.MainMenu;
@@ -47,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     boolean showMenu = false;
     private int menuResource = R.drawable.topbanner;
     private ProgressBar spinner;
+    private ImageView toolbarIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         spinner = (ProgressBar) findViewById(R.id.spinner);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbarIcon = (ImageView) findViewById(R.id.toolbar_icon);
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setTitle(pages.get(0).getName());
@@ -101,29 +102,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        MenuItem dummy = menu.findItem(R.id.dummy_menu);
-        dummy.setIcon(getResources().getDrawable(menuResource));
-
-        return true;
+    public void setToolbarIcon(int res) {
+        this.toolbarIcon.setImageDrawable(getResources().getDrawable(res));
     }
-
-    public void setMenuResource(int menuResource) {
-        this.menuResource = menuResource;
-        invalidateOptionsMenu();
-    }
-
 
     public void setLoading(boolean loading){
         if(loading) spinner.setVisibility(View.VISIBLE);
         else spinner.setVisibility(View.GONE);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return true;
     }
 
     @Override
