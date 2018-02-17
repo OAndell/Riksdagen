@@ -11,7 +11,6 @@ My goal in creating this app was firstly to practice Java and Android developmen
  * Sort by party.
  * Read new questions, motions and other documents put forward by the parties.
  
-[Download for Android](https://github.com/OAndell/Riksdagen/raw/master/download/app-debug.apk)
  
 ## Screenshots: 
 Menu:
@@ -20,11 +19,11 @@ Menu:
 
 Questions and answers asked by the politicians: 
 
-<img src="https://raw.githubusercontent.com/OAndell/Riksdagen/master/screenshots/questionExample1.png" alt="Smiley face" width="300">
+<img src="https://raw.githubusercontent.com/OAndell/Riksdagen/master/screenshots/questionExample.png" alt="Smiley face" width="300">
 
 See the results of votes:
 
-<img src="https://raw.githubusercontent.com/OAndell/Riksdagen/master/screenshots/voteExample1.jpg" alt="Smiley face" width="300">
+<img src="https://raw.githubusercontent.com/OAndell/Riksdagen/master/screenshots/voteExample1.png" alt="Smiley face" width="300">
 
 Votes by party:
 
