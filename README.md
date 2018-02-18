@@ -1,3 +1,5 @@
+https://play.google.com/store/apps/details?id=se.oandell.riksdagen
+
 # Riksdagen
 Android app to keep track of the Swedish parliament.
 
