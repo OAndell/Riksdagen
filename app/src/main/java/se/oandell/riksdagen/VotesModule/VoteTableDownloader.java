@@ -1,4 +1,4 @@
-package com.example.oscar.riksdagen.VotesModule;
+package se.oandell.riksdagen.VotesModule;
 
 import android.os.AsyncTask;
 

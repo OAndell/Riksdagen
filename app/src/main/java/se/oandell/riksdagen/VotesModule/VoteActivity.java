@@ -1,4 +1,4 @@
-package com.example.oscar.riksdagen.VotesModule;
+package se.oandell.riksdagen.VotesModule;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,15 +6,13 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.oscar.riksdagen.R;
-import com.example.oscar.riksdagen.ReadModule.ReadActivity;
+import se.oandell.riksdagen.R;
+import se.oandell.riksdagen.ReadModule.ReadActivity;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.ValueDependentColor;
@@ -40,7 +38,7 @@ public class VoteActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_vote);
+        setContentView(se.oandell.riksdagen.R.layout.activity_vote);
         context = this;
         Intent myIntent = getIntent();
         String pageDesc = myIntent.getStringExtra("pageDesc");
@@ -97,7 +95,7 @@ public class VoteActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent readPage = new Intent(context, ReadActivity.class);
                 readPage.putExtra("url",fullTextUrl);
-                readPage.putExtra("bannerImage",R.drawable.votbanner);
+                readPage.putExtra("bannerImage", R.drawable.votbanner);
                 context.startActivity(readPage);
             }
         });
@@ -178,8 +176,7 @@ public class VoteActivity extends AppCompatActivity {
     private static void downloadSummaryText(String pageDesc, TextView summaryTextView){
         Pattern pattern = Pattern.compile("betänkande\\s(\\d+\\/\\d{1,2}\\:[^\\s]+)");
         Matcher matcher = pattern.matcher(pageDesc);
-        if (matcher.find())
-        {
+        if (matcher.find()) {
             new VoteSummaryDownloader(matcher.group(1), summaryTextView).execute();
         }
     }

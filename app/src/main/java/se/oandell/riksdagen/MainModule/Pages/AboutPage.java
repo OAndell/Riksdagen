@@ -1,9 +1,9 @@
-package com.example.oscar.riksdagen.MainModule.Pages;
+package se.oandell.riksdagen.MainModule.Pages;
 
 import android.content.Context;
 
-import com.example.oscar.riksdagen.MainModule.ContentContainer;
-import com.example.oscar.riksdagen.R;
+import se.oandell.riksdagen.MainModule.ContentContainer;
+import se.oandell.riksdagen.R;
 
 /**
  * Created by oscar on 2017-07-24.

@@ -4,7 +4,7 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.0"
     defaultConfig {
-        applicationId "com.example.oscar.riksdagen"
+        applicationId "se.oandell.riksdagen"
         minSdkVersion 15
         targetSdkVersion 25
         versionCode 1
@@ -26,6 +26,6 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.0.0'
     testCompile 'junit:junit:4.12'
-    compile files('src/main/java/com/example/oscar/riksdagen/libraries/jsoup-1.9.2.jar')
-    compile files('src/main/java/com/example/oscar/riksdagen/libraries/GraphView-4.2.1.jar')
+    compile files('src/main/java/se/oandell/riksdagen/libraries/jsoup-1.9.2.jar')
+    compile files('src/main/java/se/oandell/riksdagen/libraries/GraphView-4.2.1.jar')
 }

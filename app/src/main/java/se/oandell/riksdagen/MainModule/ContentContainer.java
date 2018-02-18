@@ -1,4 +1,4 @@
-package com.example.oscar.riksdagen.MainModule;
+package se.oandell.riksdagen.MainModule;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -9,8 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.example.oscar.riksdagen.R;
 
 /**
  * Created by Oscar on 2017-03-24.

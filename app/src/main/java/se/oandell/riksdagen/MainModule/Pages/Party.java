@@ -1,4 +1,4 @@
-package com.example.oscar.riksdagen.MainModule.Pages;
+package se.oandell.riksdagen.MainModule.Pages;
 
 
 /**

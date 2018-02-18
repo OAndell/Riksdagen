@@ -1,10 +1,10 @@
-package com.example.oscar.riksdagen.AsyncTasks;
+package se.oandell.riksdagen.AsyncTasks;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 
-import com.example.oscar.riksdagen.MainModule.ContentContainer;
+import se.oandell.riksdagen.MainModule.ContentContainer;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

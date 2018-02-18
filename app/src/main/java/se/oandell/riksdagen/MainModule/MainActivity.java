@@ -1,34 +1,27 @@
-package com.example.oscar.riksdagen.MainModule;
-import android.os.Build;
+package se.oandell.riksdagen.MainModule;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.PopupWindowCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
-import android.widget.TextView;
 
-import com.example.oscar.riksdagen.MainModule.Menu.DrawerAdapter;
-import com.example.oscar.riksdagen.MainModule.Menu.MainMenu;
-import com.example.oscar.riksdagen.MainModule.Pages.AboutPage;
-import com.example.oscar.riksdagen.MainModule.Pages.Page;
-import com.example.oscar.riksdagen.MainModule.Pages.PageSuper;
-import com.example.oscar.riksdagen.MainModule.Pages.Party;
-import com.example.oscar.riksdagen.R;
+import se.oandell.riksdagen.MainModule.Menu.DrawerAdapter;
+import se.oandell.riksdagen.MainModule.Menu.MainMenu;
+import se.oandell.riksdagen.MainModule.Pages.AboutPage;
+import se.oandell.riksdagen.MainModule.Pages.Page;
+import se.oandell.riksdagen.MainModule.Pages.PageSuper;
+import se.oandell.riksdagen.MainModule.Pages.Party;
+import se.oandell.riksdagen.R;
 
 import java.util.ArrayList;
 
@@ -68,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ListView drawerList = (ListView) findViewById(R.id.left_drawer);
 
-        DrawerAdapter adapter = new DrawerAdapter(this,R.id.left_drawer,pages);
+        DrawerAdapter adapter = new DrawerAdapter(this, R.id.left_drawer,pages);
         drawerList.setAdapter(adapter);
         drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -81,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.app_name,R.string.app_name){
+        toggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar, R.string.app_name, R.string.app_name){
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
@@ -172,19 +165,19 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void initPages(){
-        pages.add(new Page("Aktuellt", R.drawable.rlogo ,R.drawable.topbanner, "https://data.riksdagen.se/dokumentlista2/?avd=aktuellt&facets=3&sort=datum&sortorder=desc&lang=sv&cmskategori=startsida&utformat=xml&p="));
-        pages.add(new Party("Socialdemokraterna", R.drawable.slogo,R.drawable.sbanner, "S"));
-        pages.add(new Party("Moderaterna", R.drawable.mlogo,R.drawable.mbanner,  "M"));
-        pages.add(new Party("Sverigedemokraterna",R.drawable.sdlogo,R.drawable.sdbanner, "SD"));
-        pages.add(new Party("Miljöpartiet",R.drawable.mplogo,R.drawable.mpbanner, "MP"));
-        pages.add(new Party("Centerpartiet",R.drawable.clogo,R.drawable.cbanner, "C"));
-        pages.add(new Party("Vänsterpartiet",R.drawable.vlogo,R.drawable.vbanner, "V"));
-        pages.add(new Party("Liberalerna",R.drawable.llogo,R.drawable.lbanner, "L"));
-        pages.add(new Party("Kristdemokraterna",R.drawable.kdlogo, R.drawable.kdbanner,"KD"));
+        pages.add(new Page("Aktuellt", R.drawable.rlogo , R.drawable.topbanner, "https://data.riksdagen.se/dokumentlista2/?avd=aktuellt&facets=3&sort=datum&sortorder=desc&lang=sv&cmskategori=startsida&utformat=xml&p="));
+        pages.add(new Party("Socialdemokraterna", R.drawable.slogo, R.drawable.sbanner, "S"));
+        pages.add(new Party("Moderaterna", R.drawable.mlogo, R.drawable.mbanner,  "M"));
+        pages.add(new Party("Sverigedemokraterna", R.drawable.sdlogo, R.drawable.sdbanner, "SD"));
+        pages.add(new Party("Miljöpartiet", R.drawable.mplogo, R.drawable.mpbanner, "MP"));
+        pages.add(new Party("Centerpartiet", R.drawable.clogo, R.drawable.cbanner, "C"));
+        pages.add(new Party("Vänsterpartiet", R.drawable.vlogo, R.drawable.vbanner, "V"));
+        pages.add(new Party("Liberalerna", R.drawable.llogo, R.drawable.lbanner, "L"));
+        pages.add(new Party("Kristdemokraterna", R.drawable.kdlogo, R.drawable.kdbanner,"KD"));
         pages.add(new Page("Riksdagsbeslut", R.drawable.betlogo, R.drawable.betbanner, "https://data.riksdagen.se/dokumentlista2/?avd=dokument&doktyp=bet&beslutad=1&sort=beslutsdag&sortorder=desc&utformat=xml&p="));
-        pages.add(new Page("Voteringar",R.drawable.votlogo ,R.drawable.votbanner,"http://data.riksdagen.se/dokumentlista/?sok=&doktyp=votering&rm=&sort=dat&sortorder=desc&rapport=&utformat=xml&p="));
+        pages.add(new Page("Voteringar", R.drawable.votlogo , R.drawable.votbanner,"http://data.riksdagen.se/dokumentlista/?sok=&doktyp=votering&rm=&sort=dat&sortorder=desc&rapport=&utformat=xml&p="));
         pages.add(new Page("Kammarprotokoll", R.drawable.protlogo, R.drawable.protbanner, "http://data.riksdagen.se/dokumentlista/?sok=&doktyp=prot&sort=datum&sortorder=desc&utformat=xml&p="));
-        pages.add(new AboutPage("Om Appen", R.drawable.abouticon ,R.drawable.aboutbanner,this));
+        pages.add(new AboutPage("Om Appen", R.drawable.abouticon , R.drawable.aboutbanner,this));
     }
 
 

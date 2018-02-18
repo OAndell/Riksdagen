@@ -1,22 +1,15 @@
-package com.example.oscar.riksdagen.MainModule.Menu;
+package se.oandell.riksdagen.MainModule.Menu;
 
-import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.Point;
-import android.graphics.drawable.ColorDrawable;
-import android.support.v4.widget.PopupWindowCompat;
-import android.view.Display;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ScrollView;
 
-import com.example.oscar.riksdagen.MainModule.Pages.PageSuper;
-import com.example.oscar.riksdagen.MainModule.Updater;
-import com.example.oscar.riksdagen.R;
+import se.oandell.riksdagen.MainModule.Pages.PageSuper;
+import se.oandell.riksdagen.MainModule.Updater;
+import se.oandell.riksdagen.R;
 
 import java.util.ArrayList;
 

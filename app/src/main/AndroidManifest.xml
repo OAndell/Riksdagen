@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.oscar.riksdagen">
+    package="se.oandell.riksdagen">
     <uses-sdk android:minSdkVersion="24" android:targetSdkVersion="24" />
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -10,7 +10,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".MainModule.MainActivity">
+        <activity android:name="se.oandell.riksdagen.MainModule.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -18,10 +18,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".VotesModule.VoteActivity">
+            android:name="se.oandell.riksdagen.VotesModule.VoteActivity">
         </activity>
         <activity
-            android:name=".ReadModule.ReadActivity">
+            android:name="se.oandell.riksdagen.ReadModule.ReadActivity">
         </activity>
     </application>
 

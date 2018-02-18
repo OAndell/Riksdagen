@@ -1,19 +1,16 @@
-package com.example.oscar.riksdagen.ReadModule;
+package se.oandell.riksdagen.ReadModule;
 
 import android.content.Intent;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.widget.Button;
 import android.widget.ImageView;
 
-import com.example.oscar.riksdagen.R;
+import se.oandell.riksdagen.R;
 
 /**
  * Created by Oscar on 2017-05-15.

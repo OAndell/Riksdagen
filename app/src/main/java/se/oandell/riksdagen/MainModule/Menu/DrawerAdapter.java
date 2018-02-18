@@ -1,4 +1,4 @@
-package com.example.oscar.riksdagen.MainModule.Menu;
+package se.oandell.riksdagen.MainModule.Menu;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,13 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.oscar.riksdagen.MainModule.Pages.Page;
-import com.example.oscar.riksdagen.MainModule.Pages.PageSuper;
-import com.example.oscar.riksdagen.R;
+import se.oandell.riksdagen.MainModule.Pages.PageSuper;
+import se.oandell.riksdagen.R;
 
 import java.util.ArrayList;
 

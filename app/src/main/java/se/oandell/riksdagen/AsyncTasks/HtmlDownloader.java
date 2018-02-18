@@ -1,11 +1,11 @@
-package com.example.oscar.riksdagen.AsyncTasks;
+package se.oandell.riksdagen.AsyncTasks;
 
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.text.Html;
 
-import com.example.oscar.riksdagen.MainModule.ContentContainer;
+import se.oandell.riksdagen.MainModule.ContentContainer;
 
 
 import org.jsoup.Jsoup;

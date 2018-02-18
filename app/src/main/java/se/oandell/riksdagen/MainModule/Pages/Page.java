@@ -1,4 +1,4 @@
-package com.example.oscar.riksdagen.MainModule.Pages;
+package se.oandell.riksdagen.MainModule.Pages;
 
 /**
  * Created by oscar on 2017-07-08.

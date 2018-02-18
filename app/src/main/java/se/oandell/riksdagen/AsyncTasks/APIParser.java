@@ -1,10 +1,10 @@
-package com.example.oscar.riksdagen.AsyncTasks;
+package se.oandell.riksdagen.AsyncTasks;
 
 import android.os.AsyncTask;
 
-import com.example.oscar.riksdagen.MainModule.Pages.Page;
-import com.example.oscar.riksdagen.MainModule.Pages.Party;
-import com.example.oscar.riksdagen.MainModule.Updater;
+import se.oandell.riksdagen.MainModule.Pages.Page;
+import se.oandell.riksdagen.MainModule.Pages.Party;
+import se.oandell.riksdagen.MainModule.Updater;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

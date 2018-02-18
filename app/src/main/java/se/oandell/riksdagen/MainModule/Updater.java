@@ -1,4 +1,4 @@
-package com.example.oscar.riksdagen.MainModule;
+package se.oandell.riksdagen.MainModule;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,17 +14,17 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.example.oscar.riksdagen.MainModule.Pages.AboutPage;
-import com.example.oscar.riksdagen.MainModule.Pages.Page;
-import com.example.oscar.riksdagen.MainModule.Pages.PageSuper;
-import com.example.oscar.riksdagen.MainModule.Pages.Party;
-import com.example.oscar.riksdagen.R;
-import com.example.oscar.riksdagen.ReadModule.ReadActivity;
-import com.example.oscar.riksdagen.AsyncTasks.APIParser;
-import com.example.oscar.riksdagen.AsyncTasks.HtmlDownloader;
-import com.example.oscar.riksdagen.AsyncTasks.ImageDownloader;
-import com.example.oscar.riksdagen.AsyncTasks.ReplyFinder;
-import com.example.oscar.riksdagen.VotesModule.VoteActivity;
+import se.oandell.riksdagen.MainModule.Pages.AboutPage;
+import se.oandell.riksdagen.MainModule.Pages.Page;
+import se.oandell.riksdagen.MainModule.Pages.PageSuper;
+import se.oandell.riksdagen.MainModule.Pages.Party;
+import se.oandell.riksdagen.R;
+import se.oandell.riksdagen.ReadModule.ReadActivity;
+import se.oandell.riksdagen.AsyncTasks.APIParser;
+import se.oandell.riksdagen.AsyncTasks.HtmlDownloader;
+import se.oandell.riksdagen.AsyncTasks.ImageDownloader;
+import se.oandell.riksdagen.AsyncTasks.ReplyFinder;
+import se.oandell.riksdagen.VotesModule.VoteActivity;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -170,8 +170,7 @@ public class Updater {
      */
     public void handleBackButton(){
 
-        for (PageSuper page: backStack
-             ) {
+        for (PageSuper page: backStack) {
             System.out.println(page.getName());
 
         }
@@ -191,7 +190,6 @@ public class Updater {
             }else {
                 downloadAndUpdate(backStack.pop());
             }
-
         }
     }
 
@@ -319,7 +317,7 @@ public class Updater {
                     @Override
                     public void onClick(View view) {
                         //this page makes a search for example 2016/17:FiU20
-                        Page betVotePage = new Page("",R.drawable.votlogo, R.drawable.votbanner,"http://data.riksdagen.se/dokumentlista/?sok="+doc.getElementsByTag("rm").get(0).text()+":"+doc.getElementsByTag("beteckning").get(0).text()+"&doktyp=votering&sort=rel&sortorder=desc&rapport=&utformat=xml&p=");
+                        Page betVotePage = new Page("", R.drawable.votlogo, R.drawable.votbanner,"http://data.riksdagen.se/dokumentlista/?sok="+doc.getElementsByTag("rm").get(0).text()+":"+doc.getElementsByTag("beteckning").get(0).text()+"&doktyp=votering&sort=rel&sortorder=desc&rapport=&utformat=xml&p=");
                         downloadAndUpdate(betVotePage);
                     }
                 });
@@ -341,4 +339,6 @@ public class Updater {
         sourceTxt.setTextSize(9);
         return  sourceTxt;
     }
+
+
 }
