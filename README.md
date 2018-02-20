@@ -1,3 +1,4 @@
+Download on Google Play Store:
 https://play.google.com/store/apps/details?id=se.oandell.riksdagen
 
 # Riksdagen
@@ -13,7 +14,9 @@ My goal in creating this app was firstly to practice Java and Android developmen
  * Sort by party.
  * Read new questions, motions and other documents put forward by the parties.
  
- 
+## Thanks:
+ Thanks to Gustav Aaro https://github.com/gustavaa
+
 ## Screenshots: 
 Menu:
 
