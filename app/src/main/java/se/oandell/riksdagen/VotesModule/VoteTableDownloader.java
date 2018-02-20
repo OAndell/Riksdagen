@@ -10,6 +10,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 
 /**
@@ -47,7 +48,7 @@ public class VoteTableDownloader extends AsyncTask<Element,Element,Element> {
 
     private Element download(){
         try {
-            Document doc = Jsoup.connect(url)
+            Document doc = Jsoup.connect(URI.create(url).toASCIIString())
                     .userAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.21 (KHTML, like Gecko) Chrome/19.0.1042.0 Safari/535.21")
                     .timeout(10000)
                     .get();

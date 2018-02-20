@@ -10,6 +10,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URL;
 
 /**
  * Created by Oscar on 2017-05-16.
@@ -44,10 +46,15 @@ public class VoteSummaryDownloader extends AsyncTask<String,String,String> {
 
     private String search(){
         try {
-            Document doc = Jsoup.connect(apiQuery+searchTerm)
+
+            String url = apiQuery + searchTerm;
+            Document doc = Jsoup.connect(URI.create(url).toASCIIString())
                     .userAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.21 (KHTML, like Gecko) Chrome/19.0.1042.0 Safari/535.21")
                     .timeout(10000)
                     .get();
+
+            System.out.println(url);
+            System.out.println(doc.toString());
             docUrl =  doc.getElementsByTag("dokument_url_html").get(0).text();
             VoteActivity.setFullTextUrl(docUrl);
             return doc.getElementsByTag("notis").get(0).text();

@@ -10,6 +10,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
+import java.net.URI;
 
 
 /**
@@ -43,7 +44,7 @@ public class APIParser extends AsyncTask<String, String, String> {
 
     private String download() {
         try {
-            Document doc = Jsoup.connect(query)
+            Document doc = Jsoup.connect(URI.create(query).toASCIIString())
                     .userAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.21 (KHTML, like Gecko) Chrome/19.0.1042.0 Safari/535.21")
                     .timeout(10000)
                     .get();
