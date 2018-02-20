@@ -2,7 +2,6 @@ package se.oandell.riksdagen.VotesModule;
 
 import android.os.AsyncTask;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.text.Html;
 import android.widget.TextView;
 
@@ -33,10 +32,14 @@ public class VoteSummaryDownloader extends AsyncTask<String,String,String> {
             return search();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onPostExecute(String results){
-        textView.setText(Html.fromHtml(results,Html.FROM_HTML_OPTION_USE_CSS_COLORS).toString());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            textView.setText(Html.fromHtml(results,Html.FROM_HTML_OPTION_USE_CSS_COLORS).toString());
+        }
+        else{
+            textView.setText(Html.fromHtml(results).toString());
+        }
     }
 
     private String search(){

@@ -2,7 +2,6 @@ package se.oandell.riksdagen.AsyncTasks;
 
 import android.os.AsyncTask;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.text.Html;
 
 import se.oandell.riksdagen.MainModule.ContentContainer;
@@ -31,7 +30,6 @@ public class HtmlDownloader extends AsyncTask<String, String,Document> {
         return download();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onPostExecute(Document result){
         contentContainer.setTitle(contentContainer.getTitle() + Html.fromHtml(result.getElementsByTag("h2").html() +"<br>"+ result.getElementsByClass("av").html() +"<br>"+ result.getElementsByClass("till").html(),Html.FROM_HTML_MODE_COMPACT).toString());
@@ -39,7 +37,12 @@ public class HtmlDownloader extends AsyncTask<String, String,Document> {
         result.getElementsByClass("av").remove();
         result.getElementsByClass("till").remove();
         result.getElementsByTag("style").remove();
-        contentContainer.setText(Html.fromHtml(result.html(),Html.FROM_HTML_OPTION_USE_CSS_COLORS ).toString().trim());
+        if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            contentContainer.setText(Html.fromHtml(result.html(),Html.FROM_HTML_OPTION_USE_CSS_COLORS ).toString().trim());
+        }
+        else {
+            contentContainer.setText(Html.fromHtml(result.html()).toString().trim());
+        }
 
     }
 

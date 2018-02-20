@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
@@ -209,10 +208,14 @@ public class Updater {
     /**
      * Create non interactive items for startpage.
      */
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private void createNonClickableItem(Element doc, ContentContainer item){
         item.setTitle(doc.getElementsByTag("titel").get(0).text());
-        String summary = Html.fromHtml(doc.getElementsByTag("summary").get(0).text(),Html.FROM_HTML_OPTION_USE_CSS_COLORS).toString();
+        String summary = "";
+        if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            summary = Html.fromHtml(doc.getElementsByTag("summary").get(0).text(),Html.FROM_HTML_OPTION_USE_CSS_COLORS).toString();
+        } else {
+            summary = Html.fromHtml(doc.getElementsByTag("summary").get(0).text()).toString();
+        }
         item.setText(summary.replaceAll("<p>","").replaceAll("</p>","").replaceAll("&nbsp;"," "));
         item.setText(item.getText() + "\n" + doc.getElementsByTag("systemdatum").get(0).text());
         ImageDownloader imageDownloader = new ImageDownloader(item, "http://www.riksdagen.se" + doc.getElementsByTag("img_url").get(0).text(), ImageDownloader.INPUT_URL);
@@ -283,6 +286,7 @@ public class Updater {
         });
     }
 
+
     /**
      * Create contentContainer for the "bet" category. Also inits two textView links to read the full document
      * and to search for the relevant vote results.
@@ -292,11 +296,14 @@ public class Updater {
         contentContainer.setText(doc.getElementsByTag("systemdatum").get(0).text());
         contentContainer.setOnClickListener(new View.OnClickListener() {
 
-            @RequiresApi(api = Build.VERSION_CODES.N)
             public void onClick(View view) {
                 ContentContainer contentItem = new ContentContainer(context);
                 contentItem.setTitle(doc.getElementsByTag("notisrubrik").get(0).text());
-                contentItem.setText(Html.fromHtml(doc.getElementsByTag("notis").get(0).text(),Html.FROM_HTML_OPTION_USE_CSS_COLORS).toString().trim());
+                if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                    contentItem.setText(Html.fromHtml(doc.getElementsByTag("notis").get(0).text(),Html.FROM_HTML_OPTION_USE_CSS_COLORS).toString().trim());
+                } else {
+                    contentItem.setText(Html.fromHtml(doc.getElementsByTag("notis").get(0).text()).toString().trim());
+                }
                 //init read full document link
                 contentItem.getFooterTextView().setText("\nLäs fullständigt betänkande...");
                 contentItem.getFooterTextView().setOnClickListener(new View.OnClickListener() {
