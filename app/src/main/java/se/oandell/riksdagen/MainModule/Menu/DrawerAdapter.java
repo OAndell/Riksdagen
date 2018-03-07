@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import se.oandell.riksdagen.MainModule.MainActivity;
 import se.oandell.riksdagen.MainModule.Pages.PageSuper;
 import se.oandell.riksdagen.R;
 
@@ -22,12 +23,10 @@ import java.util.ArrayList;
 
 public class DrawerAdapter extends ArrayAdapter<PageSuper> {
 
-    Context context;
     ArrayList<PageSuper> pages;
 
-    public DrawerAdapter(@NonNull Context context, int resource, ArrayList<PageSuper> pages) {
-        super(context, resource);
-        this.context = context;
+    public DrawerAdapter( int resource, ArrayList<PageSuper> pages) {
+        super(MainActivity.getInstance(), resource);
         this.pages = pages;
     }
 
@@ -46,7 +45,7 @@ public class DrawerAdapter extends ArrayAdapter<PageSuper> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         if(convertView == null){
-            LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+            LayoutInflater inflater = ((Activity) MainActivity.getInstance()).getLayoutInflater();
             convertView = inflater.inflate(R.layout.drawer_item,parent,false);
         }
         System.out.println("PAGE");
@@ -57,7 +56,7 @@ public class DrawerAdapter extends ArrayAdapter<PageSuper> {
 
 
         title.setText(page.getName());
-        ic.setImageDrawable(context.getResources().getDrawable(page.getSymbol()));
+        ic.setImageDrawable(MainActivity.getInstance().getResources().getDrawable(page.getSymbol()));
 
         return convertView;
 

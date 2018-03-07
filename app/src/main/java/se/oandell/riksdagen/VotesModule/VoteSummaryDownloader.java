@@ -52,9 +52,6 @@ public class VoteSummaryDownloader extends AsyncTask<String,String,String> {
                     .userAgent("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.21 (KHTML, like Gecko) Chrome/19.0.1042.0 Safari/535.21")
                     .timeout(10000)
                     .get();
-
-            System.out.println(url);
-            System.out.println(doc.toString());
             docUrl =  doc.getElementsByTag("dokument_url_html").get(0).text();
             VoteActivity.setFullTextUrl(docUrl);
             return doc.getElementsByTag("notis").get(0).text();

@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ScrollView;
 
+import se.oandell.riksdagen.MainModule.MainActivity;
 import se.oandell.riksdagen.MainModule.Pages.PageSuper;
 import se.oandell.riksdagen.MainModule.Updater;
 import se.oandell.riksdagen.R;
@@ -24,8 +25,9 @@ public class MainMenu extends PopupWindow {
     private Updater updater;
     private PopupWindow thisPopupMenu;
 
-    public MainMenu(Context context, ArrayList<PageSuper> parties, Updater updater) {
-        super(context);
+    public MainMenu( ArrayList<PageSuper> parties, Updater updater) {
+        super(MainActivity.getInstance());
+        Context context = MainActivity.getInstance();
         this.updater = updater;
         thisPopupMenu = this;
         menuLayout = new LinearLayout(context);
@@ -34,7 +36,7 @@ public class MainMenu extends PopupWindow {
         ScrollView scrollView = new ScrollView(context);
         this.setContentView(scrollView);
         this.pages = parties;
-        initMenuItems(context);
+        initMenuItems();
         this.setAnimationStyle(R.style.animationMenu);
     }
 
@@ -42,9 +44,9 @@ public class MainMenu extends PopupWindow {
         return menuLayout;
     }
 
-    private void initMenuItems(Context context){
+    private void initMenuItems(){
         for (int i = 0; i < pages.size(); i++) {
-            final MenuItem menuItem = new MenuItem(context, pages.get(i));
+            final MenuItem menuItem = new MenuItem( pages.get(i));
             final int finalI = i;
             menuItem.setOnClickListener(new View.OnClickListener() {
                 @Override

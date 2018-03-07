@@ -16,10 +16,9 @@ import se.oandell.riksdagen.R;
 
 public class ComponentBuilder {
 
-    private Updater updater;
 
 
-    static View getPageNavigator(Context context, final Updater updater){
+    static View getPageNavigator(Context context){
         LinearLayout footer = new LinearLayout(context);
         LayoutInflater inflater = ((Activity) context).getLayoutInflater();
 
@@ -27,6 +26,7 @@ public class ComponentBuilder {
         TextView currentPageText = (TextView) pageNav.findViewById(R.id.page_indicator);
         ImageButton prevArrow = (ImageButton) pageNav.findViewById(R.id.left_arrow);
         ImageButton nextArrow = (ImageButton) pageNav.findViewById(R.id.right_arrow);
+        final Updater updater = Updater.getInstance();
 
         currentPageText.setText("Sida: " + updater.getCurrentPage().getPageNumber());
 

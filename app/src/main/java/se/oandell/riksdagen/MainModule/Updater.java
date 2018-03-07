@@ -47,11 +47,18 @@ public class Updater {
     private PageSuper currentPage;
     private ScrollView scrollView;
 
-    public Updater(Context context, LinearLayout listLayout, ScrollView scrollView){
+    private static Updater instance;
+
+    public Updater(LinearLayout listLayout, ScrollView scrollView){
         this.listLayout = listLayout;
-        this.context = context;
         this.banner = banner;
         this.scrollView = scrollView;
+        instance = this;
+        context = MainActivity.getInstance();
+    }
+
+    public static Updater getInstance(){
+        return instance;
     }
 
     /**
@@ -69,10 +76,10 @@ public class Updater {
         backStack.push(page);
         documentView = false;
         if(page.getClass() == Party.class){
-            new APIParser(this,(Party)page).execute();
+            new APIParser((Party) page).execute();
         }
         else if (page.getClass() == Page.class){
-            new APIParser(this,(Page)page).execute();
+            new APIParser((Page)page).execute();
         }
         else if (page.getClass() == AboutPage.class){
             AboutPage aboutPage = (AboutPage) page;
@@ -92,7 +99,7 @@ public class Updater {
             createItem(allDocs.get(i));
         }
         if(allDocs.size() > 19){
-            listLayout.addView(ComponentBuilder.getPageNavigator(context, this));
+            listLayout.addView(ComponentBuilder.getPageNavigator(context));
         }
         listLayout.addView(createSourceText());
         ((MainActivity) context).setLoading(false);
@@ -112,7 +119,7 @@ public class Updater {
      * Create a container customized according to the current page.
      */
     private void createItem(final Element doc){
-        ContentContainer item = new ContentContainer(context);
+        ContentContainer item = new ContentContainer();
         if(doc.getElementsByTag("debattnamn").get(0).text().length() > 0){ //Check to see if you should look for summaries instead of documents
             if(currentPage.getClass() == Party.class) {
                 createPartyItem(doc, item);
@@ -138,7 +145,7 @@ public class Updater {
      * finds and downloads a document + politician image
      */
     public void getHTMLDocument(String url, String name){
-        ContentContainer container = new ContentContainer(context);
+        ContentContainer container = new ContentContainer();
         ImageDownloader imageDownloader = new ImageDownloader(container, name, ImageDownloader.INPUT_NAME);
         imageDownloader.execute();
         HtmlDownloader htmlDownloader = new HtmlDownloader(container,url);
@@ -154,7 +161,7 @@ public class Updater {
      * Calls a ReplyFinder task.
      */
     private void getReplyDoc(String title, String id){
-        ContentContainer replyContainer = new ContentContainer(context);
+        ContentContainer replyContainer = new ContentContainer();
         listLayout.addView(replyContainer);
         title = title.replace(" ", "+");
         replyContainer.setTitle("Svar på skriftlig fråga:");
@@ -297,7 +304,7 @@ public class Updater {
         contentContainer.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                ContentContainer contentItem = new ContentContainer(context);
+                ContentContainer contentItem = new ContentContainer();
                 contentItem.setTitle(doc.getElementsByTag("notisrubrik").get(0).text());
                 if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
                     contentItem.setText(Html.fromHtml(doc.getElementsByTag("notis").get(0).text(),Html.FROM_HTML_OPTION_USE_CSS_COLORS).toString().trim());

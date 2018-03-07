@@ -22,9 +22,11 @@ public class ContentContainer extends LinearLayout{
     private ImageView bottomImageView;
     private View divider;
 
-    public ContentContainer(Context context) {
-        super(context);
+    public ContentContainer() {
+        super(MainActivity.getInstance());
+        Context context = MainActivity.getInstance();
         this.setOrientation(LinearLayout.VERTICAL);
+
 
         //Create horizontal layout in which to place potential portrait and title text.
         //This is done so they can be placed next to each other

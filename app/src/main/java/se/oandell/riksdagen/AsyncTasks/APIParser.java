@@ -22,13 +22,13 @@ public class APIParser extends AsyncTask<String, String, String> {
     private Updater updater;
     private String query;
 
-    public APIParser(Updater updater, Party party){
-        this.updater = updater;
+    public APIParser( Party party){
+        updater = Updater.getInstance();
         query = "https://data.riksdagen.se/dokumentlista2/?avd=dokument&del=dokument&facets=3&parti="+party.getID()+"&fcs=1&sort=datum&sortorder=desc&utformat=xml&p="+ party.getPageNumber();
     }
 
-    public APIParser(Updater updater, Page page){
-        this.updater = updater;
+    public APIParser(Page page){
+        this.updater = Updater.getInstance();
         query = page.getAPIquery();
     }
 

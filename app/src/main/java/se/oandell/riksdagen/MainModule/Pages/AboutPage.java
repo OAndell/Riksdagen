@@ -14,7 +14,7 @@ public class AboutPage extends PageSuper {
 
     public AboutPage(String name, int symbol, int banner, Context context) {
         super(name, symbol, banner);
-        contentContainer = new ContentContainer(context);
+        contentContainer = new ContentContainer();
         contentContainer.setTitle(  context.getResources().getString(R.string.about_title));
         contentContainer.setText(context.getResources().getString(R.string.about_text));
         contentContainer.addImage(R.drawable.riksdagshuset);

@@ -1,4 +1,5 @@
 package se.oandell.riksdagen.MainModule;
+import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -41,11 +42,13 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar spinner;
     private ImageView toolbarIcon;
 
+    private static Context instance;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        instance = this;
         initPages();
         LinearLayout itemLayout = (LinearLayout) findViewById(R.id.itemLayout);
         ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
@@ -61,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ListView drawerList = (ListView) findViewById(R.id.left_drawer);
 
-        DrawerAdapter adapter = new DrawerAdapter(this, R.id.left_drawer,pages);
+        DrawerAdapter adapter = new DrawerAdapter(R.id.left_drawer,pages);
         drawerList.setAdapter(adapter);
         drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -89,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         toggle.setDrawerIndicatorEnabled(true);
         drawerLayout.setDrawerListener(toggle);
 
-        updater = new Updater(this, itemLayout, scrollView);
+        updater = new Updater(itemLayout, scrollView);
         updater.downloadAndUpdate(pages.get(0));
 
 
@@ -189,5 +192,9 @@ public class MainActivity extends AppCompatActivity {
         else {
             updater.handleBackButton();
         }
+    }
+
+    public static Context getInstance(){
+        return instance;
     }
 }

@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import se.oandell.riksdagen.MainModule.MainActivity;
 import se.oandell.riksdagen.MainModule.Pages.PageSuper;
 
 /**
@@ -25,16 +26,16 @@ public class MenuItem extends LinearLayout{
     private TextView textView;
     private ImageView imageView;
 
-    public MenuItem(final Context context, PageSuper page) {
-        super(context);
+    public MenuItem(PageSuper page) {
+        super(MainActivity.getInstance());
         this.setOrientation(HORIZONTAL);
         this.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, HEIGHT));
-        textView = new TextView(context);
+        textView = new TextView(MainActivity.getInstance());
         textView.setTextSize(TEXT_SIZE);
         textView.setTextColor(Color.BLACK);
         textView.setTypeface(null,Typeface.ITALIC);
         textView.setPadding(HORIZONTAL_PADDING,0,HORIZONTAL_PADDING,0);
-        imageView = new ImageView(context);
+        imageView = new ImageView(MainActivity.getInstance());
         LayoutParams imageParams = new LayoutParams(IMAGE_WIDTH, IMAGE_HEIGHT);
         imageView.setLayoutParams(imageParams);
         this.addView(imageView);
