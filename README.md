@@ -1,3 +1,7 @@
+
+# (This repository has been deprecated)
+## Continued development in : https://github.com/OAndell/Riksdagskollen
+
 Download on Google Play Store:
 https://play.google.com/store/apps/details?id=se.oandell.riksdagen
 
